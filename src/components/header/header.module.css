@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: #1c1c21;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  width: 1280px;
+}
+
+.nav {
+  display: flex;
+  margin-right: 112px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logo {
+  margin-right: 288px;
+}
+
+.profile {
+  display: flex;
+  cursor: pointer;
+}
