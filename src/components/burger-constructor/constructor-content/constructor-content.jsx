@@ -16,14 +16,9 @@ const ConstructorContent = ({ data }) => {
         {data.map((item, index) => {
           if (index !== 0) {
             return (
-              <div className={styles['constructor-element-wrapper']}>
+              <div key={item._id} className={styles['constructor-element-wrapper']}>
                 <DragIcon type="primary" />
-                <ConstructorElement
-                  key={item._id}
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                />
+                <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
               </div>
             );
           }
