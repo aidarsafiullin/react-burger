@@ -1,0 +1,19 @@
+.section {
+  width: 600px;
+}
+
+.ingredients-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 272px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.price-wrapper {
+  display: flex;
+  gap: 8px;
+  height: 24px;
+}

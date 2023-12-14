@@ -1,0 +1,13 @@
+.make-order-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.make-order-price {
+  display: flex;
+}
+
+.make-order-price svg {
+  width: 36px;
+  height: 36px;
+}
