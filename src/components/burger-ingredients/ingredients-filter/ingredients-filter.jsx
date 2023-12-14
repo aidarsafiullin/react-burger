@@ -1,5 +1,6 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './ingredients-filter.module.css';
+import PropTypes from 'prop-types';
 
 const IngredientsFilter = ({
   filter,
@@ -20,6 +21,13 @@ const IngredientsFilter = ({
       ))}
     </div>
   );
+};
+
+IngredientsFilter.propTypes = {
+  filter: PropTypes.array.isRequired,
+  IngredientTypes: PropTypes.object.isRequired,
+  activeIngredientType: PropTypes.string.isRequired,
+  setActiveIngredientType: PropTypes.func.isRequired,
 };
 
 export default IngredientsFilter;

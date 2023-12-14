@@ -1,5 +1,6 @@
 import styles from './constructor-content.module.css';
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
 const ConstructorContent = ({ data }) => {
   return (
@@ -34,6 +35,10 @@ const ConstructorContent = ({ data }) => {
       />
     </div>
   );
+};
+
+ConstructorContent.propTypes = {
+  data: PropTypes.array.isRequired,
 };
 
 export default ConstructorContent;

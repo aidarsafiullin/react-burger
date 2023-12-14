@@ -1,5 +1,6 @@
 import IngredientsItem from '../ingredients-item/ingredients-item';
 import styles from './ingredients-menu.module.css';
+import PropTypes from 'prop-types';
 
 const IngredientsMenu = ({ data, filter, IngredientTypes }) => {
   return (
@@ -20,6 +21,12 @@ const IngredientsMenu = ({ data, filter, IngredientTypes }) => {
       })}
     </section>
   );
+};
+
+IngredientsMenu.propTypes = {
+  filter: PropTypes.array.isRequired,
+  IngredientTypes: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
 };
 
 export default IngredientsMenu;
