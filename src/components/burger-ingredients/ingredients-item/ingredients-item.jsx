@@ -1,10 +1,13 @@
-import styles from './ingredients-item.module.css';
+import React from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ingredientPropTypes } from '../../../utils/types';
 import PropTypes from 'prop-types';
 
-const IngredientsItem = ({ item }) => {
+import styles from './ingredients-item.module.css';
+
+const IngredientsItem = ({ item, handleClickIngredients }) => {
   return (
-    <div className={styles['ingredients-item']}>
+    <div onClick={() => handleClickIngredients(item)} className={styles['ingredients-item']}>
       <Counter count={1} size="default" />
       <img height={120} width={240} src={item.image} alt={item.name} />
       <div className={`${styles['price-wrapper']} mt-2 mb-2`}>
@@ -17,14 +20,9 @@ const IngredientsItem = ({ item }) => {
   );
 };
 
-const ingredientsPropTypes = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-});
-
 IngredientsItem.propTypes = {
-  item: ingredientsPropTypes.isRequired,
+  item: ingredientPropTypes.isRequired,
+  handleClickIngredients: PropTypes.func.isRequired,
 };
 
 export default IngredientsItem;

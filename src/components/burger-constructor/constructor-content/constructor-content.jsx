@@ -15,7 +15,7 @@ const ConstructorContent = ({ data }) => {
       />
       <div className={`${styles['constructor-scroll-area']} pr-2`}>
         {data.map((item, index) => {
-          if (index !== 0) {
+          if (item.type !== 'bun') {
             return (
               <div key={item._id} className={styles['constructor-element-wrapper']}>
                 <DragIcon type="primary" />

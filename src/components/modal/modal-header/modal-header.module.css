@@ -1,0 +1,15 @@
+.header {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  width: 640px;
+}
+
+.close {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 60px;
+  right: 40px;
+}
