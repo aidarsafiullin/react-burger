@@ -1,5 +1,6 @@
 import styles from './constructor-content.module.css';
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ingredientPropTypes } from '../../../utils/types';
 import PropTypes from 'prop-types';
 
 const ConstructorContent = ({ data }) => {
@@ -15,7 +16,7 @@ const ConstructorContent = ({ data }) => {
       />
       <div className={`${styles['constructor-scroll-area']} pr-2`}>
         {data.map((item, index) => {
-          if (index !== 0) {
+          if (item.type !== 'bun') {
             return (
               <div key={item._id} className={styles['constructor-element-wrapper']}>
                 <DragIcon type="primary" />
@@ -38,7 +39,7 @@ const ConstructorContent = ({ data }) => {
 };
 
 ConstructorContent.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 };
 
 export default ConstructorContent;

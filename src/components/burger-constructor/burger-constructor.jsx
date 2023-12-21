@@ -1,6 +1,7 @@
 import styles from './burger-constructor.module.css';
 import ConstructorContent from './constructor-content/constructor-content';
 import ConstructorMakeOrder from './constructor-make-order/constructor-make-order';
+import { ingredientPropTypes } from '../../utils/types';
 import PropTypes from 'prop-types';
 
 const BurgerConstructor = ({ data }) => {
@@ -13,7 +14,7 @@ const BurgerConstructor = ({ data }) => {
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 };
 
 export default BurgerConstructor;

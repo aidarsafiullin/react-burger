@@ -4,6 +4,7 @@ import styles from './burger-ingredients.module.css';
 import { IngredientTypes } from '../../utils/constants';
 import IngredientsFilter from './ingredients-filter/ingredients-filter';
 import IngredientsMenu from './ingredients-menu/ingredients-menu';
+import { ingredientPropTypes } from '../../utils/types';
 import PropTypes from 'prop-types';
 
 const BurgerIngredients = ({ data }) => {
@@ -25,7 +26,7 @@ const BurgerIngredients = ({ data }) => {
 };
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 };
 
 export default BurgerIngredients;
