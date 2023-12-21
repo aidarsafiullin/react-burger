@@ -2,16 +2,18 @@ import React from 'react';
 import IngredientsItem from '../ingredients-item/ingredients-item';
 import IngredientDetails from 'src/components/modal/ingredient-details/ingredient-details';
 import Modal from 'src/components/modal/modal';
+import { useModal } from 'src/components/hooks/useModal';
 import styles from './ingredients-menu.module.css';
+import { ingredientPropTypes } from '../../../utils/types';
 import PropTypes from 'prop-types';
 
 const IngredientsMenu = ({ data, filter, IngredientTypes }) => {
-  const [showModal, setShowModal] = React.useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
   const [currentIngredient, setCurrentIngredient] = React.useState(data[0]);
 
   const handleClickIngredients = (item) => {
     setCurrentIngredient(item);
-    setShowModal(true);
+    openModal();
   };
 
   return (
@@ -38,7 +40,7 @@ const IngredientsMenu = ({ data, filter, IngredientTypes }) => {
           );
         })}
       </section>
-      <Modal title={'Детали ингредиента'} showModal={showModal} onClose={() => setShowModal(false)}>
+      <Modal title={'Детали ингредиента'} isModalOpen={isModalOpen} closeModal={closeModal}>
         <IngredientDetails currentIngredient={currentIngredient} />
       </Modal>
     </>
@@ -48,7 +50,7 @@ const IngredientsMenu = ({ data, filter, IngredientTypes }) => {
 IngredientsMenu.propTypes = {
   filter: PropTypes.array.isRequired,
   IngredientTypes: PropTypes.object.isRequired,
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 };
 
 export default IngredientsMenu;

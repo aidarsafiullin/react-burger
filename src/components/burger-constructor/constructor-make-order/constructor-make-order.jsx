@@ -1,11 +1,12 @@
-import Modal from 'src/components/modal/modal';
 import React from 'react';
 import styles from './constructor-make-order.module.css';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from 'src/components/modal/order-details/order-details';
+import { useModal } from 'src/components/hooks/useModal';
+import Modal from 'src/components/modal/modal';
 
 const ConstructorMakeOrder = ({ data }) => {
-  const [showModal, setShowModal] = React.useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
     <>
@@ -14,11 +15,11 @@ const ConstructorMakeOrder = ({ data }) => {
           <span className="text text_type_digits-medium mr-2">2000</span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button onClick={() => setShowModal(true)} htmlType="button" type="primary" size="large">
+        <Button onClick={openModal} htmlType="button" type="primary" size="large">
           Оформить заказ
         </Button>
       </div>
-      <Modal showModal={showModal} onClose={() => setShowModal(false)}>
+      <Modal isModalOpen={isModalOpen} closeModal={closeModal}>
         <OrderDetails />
       </Modal>
     </>

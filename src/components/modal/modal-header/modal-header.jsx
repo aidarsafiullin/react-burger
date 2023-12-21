@@ -3,7 +3,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import styles from './modal-header.module.css';
 
-const ModalHeader = ({ title, onClose }) => {
+const ModalHeader = ({ title, closeModal }) => {
   const [isHoverClose, setHoverClose] = React.useState(false);
 
   return (
@@ -13,7 +13,7 @@ const ModalHeader = ({ title, onClose }) => {
         className={styles.close}
         onMouseEnter={() => setHoverClose(true)}
         onMouseLeave={() => setHoverClose(false)}>
-        <CloseIcon onClick={onClose} type={isHoverClose ? 'secondary' : 'primary'} />
+        <CloseIcon onClick={closeModal} type={isHoverClose ? 'secondary' : 'primary'} />
       </div>
     </div>
   );
@@ -21,7 +21,7 @@ const ModalHeader = ({ title, onClose }) => {
 
 ModalHeader.propTypes = {
   title: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default ModalHeader;

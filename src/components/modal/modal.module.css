@@ -1,7 +1,7 @@
 .wrapper {
   visibility: hidden;
   opacity: 0;
-  transition: all 0.15s ease-out;
+  transition: all 0.25s ease-out;
 }
 
 .wrapper.visible {
@@ -22,6 +22,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s ease-out;
+  transition: all 0.25s ease-out;
   z-index: 20;
 }

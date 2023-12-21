@@ -6,31 +6,32 @@ import ModalHeader from './modal-header/modal-header';
 import PropTypes from 'prop-types';
 const modalRoot = document.getElementById('modal');
 
-const Modal = ({ showModal, onClose, children, title }) => {
+const Modal = ({ isModalOpen, closeModal, children, title }) => {
   React.useEffect(() => {
-    const closeOnEscapeKey = (e) => (e.key === 'Escape' ? onClose() : null);
+    if (!isModalOpen) return;
+    const closeOnEscapeKey = (e) => (e.key === 'Escape' ? closeModal() : null);
     document.body.addEventListener('keydown', closeOnEscapeKey);
     return () => {
       document.body.removeEventListener('keydown', closeOnEscapeKey);
     };
-  }, [onClose]);
+  }, [closeModal, isModalOpen]);
 
   return createPortal(
-    <div className={`${styles.wrapper} ${showModal ? styles.visible : ''}`}>
+    <div className={`${styles.wrapper} ${isModalOpen ? styles.visible : ''}`}>
       <div className={styles.modal}>
-        <ModalHeader title={title} onClose={onClose} />
+        <ModalHeader title={title} closeModal={closeModal} />
         {children}
       </div>
-      <ModalOverlay onClose={onClose} />
+      <ModalOverlay closeModal={closeModal} />
     </div>,
     modalRoot,
   );
 };
 
 Modal.propTypes = {
-  showModal: PropTypes.bool.isRequired,
+  isModalOpen: PropTypes.bool.isRequired,
   title: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default Modal;

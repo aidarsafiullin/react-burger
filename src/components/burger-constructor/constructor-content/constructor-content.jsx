@@ -1,5 +1,6 @@
 import styles from './constructor-content.module.css';
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ingredientPropTypes } from '../../../utils/types';
 import PropTypes from 'prop-types';
 
 const ConstructorContent = ({ data }) => {
@@ -38,7 +39,7 @@ const ConstructorContent = ({ data }) => {
 };
 
 ConstructorContent.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 };
 
 export default ConstructorContent;

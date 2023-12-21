@@ -5,7 +5,7 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { URL } from '../../utils/constants';
 
 const AppMain = () => {
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
@@ -17,7 +17,7 @@ const AppMain = () => {
           throw new Error(`Ошибка HTTP: статус ${response.status}`);
         }
 
-        let actualData = await response.json();
+        const actualData = await response.json();
         setData(actualData.data);
         setError(null);
       } catch (err) {
@@ -32,7 +32,9 @@ const AppMain = () => {
 
   return (
     <main className={styles.main}>
-      {!loading && (
+      {loading && <div>Идет загрузка...</div>}
+      {error && <div>{`Проблема с получением данных - ${error}`}</div>}
+      {data && (
         <>
           <BurgerIngredients data={data} />
           <BurgerConstructor data={data} />
