@@ -2,42 +2,64 @@ import React from 'react';
 import styles from './main.module.css';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { URL } from '../../utils/constants';
+import { IngredientsContext, TotalPriceContext } from 'src/utils/contexts';
+import { URL_INGREDIENTS } from '../../utils/constants';
+
+const initialPrice = { price: 0 };
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'add':
+      return { price: state.price + action.payload };
+    case 'remove':
+      return { price: state.price - action.payload };
+    case 'reset':
+      return initialPrice;
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+};
 
 const AppMain = () => {
-  const [data, setData] = React.useState(null);
+  const [ingredients, setIngredients] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
+  const [totalPrice, totalPriceDispatcher] = React.useReducer(reducer, initialPrice, undefined);
+
   React.useEffect(() => {
-    const getData = async () => {
+    const getIngredients = async () => {
       try {
-        const response = await fetch(URL);
+        const response = await fetch(URL_INGREDIENTS);
         if (!response.ok) {
           throw new Error(`Ошибка HTTP: статус ${response.status}`);
         }
 
         const actualData = await response.json();
-        setData(actualData.data);
+        setIngredients(actualData.data);
         setError(null);
       } catch (err) {
         setError(err.message);
-        setData([]);
+        setIngredients([]);
       } finally {
         setLoading(false);
       }
     };
-    getData();
+    getIngredients();
   }, []);
 
   return (
     <main className={styles.main}>
       {loading && <div>Идет загрузка...</div>}
       {error && <div>{`Проблема с получением данных - ${error}`}</div>}
-      {data && (
+      {ingredients && (
         <>
-          <BurgerIngredients data={data} />
-          <BurgerConstructor data={data} />
+          <IngredientsContext.Provider value={ingredients}>
+            <BurgerIngredients />
+            <TotalPriceContext.Provider value={{ totalPrice, totalPriceDispatcher }}>
+              <BurgerConstructor />
+            </TotalPriceContext.Provider>
+          </IngredientsContext.Provider>
         </>
       )}
     </main>
