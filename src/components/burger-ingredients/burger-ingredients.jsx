@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import styles from './burger-ingredients.module.css';
 import { IngredientTypes } from '../../utils/constants';
 import IngredientsFilter from './ingredients-filter/ingredients-filter';
 import IngredientsMenu from './ingredients-menu/ingredients-menu';
-import { ingredientPropTypes } from '../../utils/types';
-import PropTypes from 'prop-types';
+import { IngredientsContext } from 'src/utils/contexts';
 
-const BurgerIngredients = ({ data }) => {
+const BurgerIngredients = () => {
   const filter = Object.keys(IngredientTypes);
   const [activeIngredientType, setActiveIngredientType] = useState(filter[0]);
+  const ingredients = useContext(IngredientsContext);
 
   return (
     <section className={styles.section}>
@@ -20,13 +20,13 @@ const BurgerIngredients = ({ data }) => {
         activeIngredientType={activeIngredientType}
         setActiveIngredientType={setActiveIngredientType}
       />
-      <IngredientsMenu data={data} filter={filter} IngredientTypes={IngredientTypes} />
+      <IngredientsMenu
+        ingredients={ingredients}
+        filter={filter}
+        IngredientTypes={IngredientTypes}
+      />
     </section>
   );
-};
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 };
 
 export default BurgerIngredients;

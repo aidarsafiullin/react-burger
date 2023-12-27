@@ -1,9 +1,11 @@
+import React from 'react';
 import styles from './constructor-content.module.css';
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropTypes } from '../../../utils/types';
-import PropTypes from 'prop-types';
+import { IngredientsContext } from 'src/utils/contexts';
 
-const ConstructorContent = ({ data }) => {
+const ConstructorContent = () => {
+  const ingredients = React.useContext(IngredientsContext);
+
   return (
     <div className={`${styles['constructor-content']} mb-10`}>
       <ConstructorElement
@@ -11,11 +13,11 @@ const ConstructorContent = ({ data }) => {
         type="top"
         isLocked={true}
         text={'Краторная булка N-200i (верх)'}
-        price={data[0].price}
-        thumbnail={data[0].image}
+        price={ingredients[0].price}
+        thumbnail={ingredients[0].image}
       />
       <div className={`${styles['constructor-scroll-area']} pr-2`}>
-        {data.map((item, index) => {
+        {ingredients.map((item, index) => {
           if (item.type !== 'bun') {
             return (
               <div key={item._id} className={styles['constructor-element-wrapper']}>
@@ -31,15 +33,11 @@ const ConstructorContent = ({ data }) => {
         type="bottom"
         isLocked={true}
         text={'Краторная булка N-200i (низ)'}
-        price={data[0].price}
-        thumbnail={data[0].image}
+        price={ingredients[0].price}
+        thumbnail={ingredients[0].image}
       />
     </div>
   );
-};
-
-ConstructorContent.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 };
 
 export default ConstructorContent;

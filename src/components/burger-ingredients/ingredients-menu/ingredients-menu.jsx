@@ -7,9 +7,9 @@ import styles from './ingredients-menu.module.css';
 import { ingredientPropTypes } from '../../../utils/types';
 import PropTypes from 'prop-types';
 
-const IngredientsMenu = ({ data, filter, IngredientTypes }) => {
+const IngredientsMenu = ({ ingredients, filter, IngredientTypes }) => {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [currentIngredient, setCurrentIngredient] = React.useState(data[0]);
+  const [currentIngredient, setCurrentIngredient] = React.useState(ingredients[0]);
 
   const handleClickIngredients = (item) => {
     setCurrentIngredient(item);
@@ -24,7 +24,7 @@ const IngredientsMenu = ({ data, filter, IngredientTypes }) => {
             <div key={id} className={`${styles['ingredient-type']} mb-10`}>
               <h2 className="text text_type_main-medium mb-6">{IngredientTypes[type]}</h2>
               <div className={`${styles['ingredient-type-wrapper']} pl-4 pr-4`}>
-                {data.map((item) => {
+                {ingredients.map((item) => {
                   if (item.type === type) {
                     return (
                       <IngredientsItem
@@ -40,9 +40,11 @@ const IngredientsMenu = ({ data, filter, IngredientTypes }) => {
           );
         })}
       </section>
-      <Modal title={'Детали ингредиента'} isModalOpen={isModalOpen} closeModal={closeModal}>
-        <IngredientDetails currentIngredient={currentIngredient} />
-      </Modal>
+      {isModalOpen && (
+        <Modal title={'Детали ингредиента'} isModalOpen={isModalOpen} closeModal={closeModal}>
+          <IngredientDetails currentIngredient={currentIngredient} />
+        </Modal>
+      )}
     </>
   );
 };
@@ -50,7 +52,7 @@ const IngredientsMenu = ({ data, filter, IngredientTypes }) => {
 IngredientsMenu.propTypes = {
   filter: PropTypes.array.isRequired,
   IngredientTypes: PropTypes.object.isRequired,
-  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
+  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 };
 
 export default IngredientsMenu;

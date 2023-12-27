@@ -4,7 +4,8 @@ export const IngredientTypes = {
   main: 'Начинки',
 };
 
-export const URL = 'https://norma.nomoreparties.space/api/ingredients';
+export const URL_INGREDIENTS = 'https://norma.nomoreparties.space/api/ingredients';
+export const URL_ORDERS = 'https://norma.nomoreparties.space/api/orders';
 
 export const IngredientDetail = [
   {
