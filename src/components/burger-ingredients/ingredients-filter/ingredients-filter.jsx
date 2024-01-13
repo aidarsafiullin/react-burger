@@ -4,17 +4,18 @@ import PropTypes from 'prop-types';
 
 const IngredientsFilter = ({
   filter,
+  filterRef,
   IngredientTypes,
   activeIngredientType,
   setActiveIngredientType,
 }) => {
   return (
-    <div className={styles.filters}>
+    <div ref={filterRef} className={styles.filters}>
       {filter.map((tab, id) => (
         <Tab
           key={id}
           value={tab}
-          active={activeIngredientType === tab}
+          active={activeIngredientType === id}
           onClick={setActiveIngredientType}>
           {IngredientTypes[tab]}
         </Tab>
@@ -26,7 +27,7 @@ const IngredientsFilter = ({
 IngredientsFilter.propTypes = {
   filter: PropTypes.array.isRequired,
   IngredientTypes: PropTypes.object.isRequired,
-  activeIngredientType: PropTypes.string.isRequired,
+  activeIngredientType: PropTypes.number.isRequired,
   setActiveIngredientType: PropTypes.func.isRequired,
 };
 
