@@ -121,7 +121,7 @@ const BurgerConstructor = () => {
 
       {openModal && (
         <Modal closeModal={closeOrderModal}>
-          <OrderDetails orderId={orderId} />
+          <OrderDetails orderId={orderId} error={orderFailed} />
         </Modal>
       )}
     </>

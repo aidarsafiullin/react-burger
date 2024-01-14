@@ -51,6 +51,7 @@ const IngredientsMenu = ({
 
 IngredientsMenu.propTypes = {
   filter: PropTypes.array.isRequired,
+  ingredientTypeRefs: PropTypes.arrayOf(PropTypes.object),
   IngredientTypes: PropTypes.object.isRequired,
   ingredients: PropTypes.array.isRequired,
 };

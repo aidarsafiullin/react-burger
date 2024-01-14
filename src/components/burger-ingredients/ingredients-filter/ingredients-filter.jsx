@@ -26,6 +26,7 @@ const IngredientsFilter = ({
 
 IngredientsFilter.propTypes = {
   filter: PropTypes.array.isRequired,
+  filterRef: PropTypes.object.isRequired,
   IngredientTypes: PropTypes.object.isRequired,
   activeIngredientType: PropTypes.number.isRequired,
   setActiveIngredientType: PropTypes.func.isRequired,
