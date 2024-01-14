@@ -1,28 +1,51 @@
 import React from 'react';
-import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropTypes } from '../../../utils/types';
-import PropTypes from 'prop-types';
-
 import styles from './ingredients-item.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrag } from 'react-dnd';
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ingredientPropTypes } from '../../../utils/types';
+import { openIngredientDetails } from '../../../services/actions/ingredient-details';
 
-const IngredientsItem = ({ item, handleClickIngredients }) => {
+const Ingredient = ({ data }) => {
+  const openIngredientDetailsModal = (ingredient) => {
+    dispatch(openIngredientDetails(ingredient));
+  };
+
+  const dispatch = useDispatch();
+  const getIngredientQuantity = (store) =>
+    store.ingredients.ingredients.find((item) => item.info._id === data._id).qty;
+
+  const ingredientQuantity = useSelector(getIngredientQuantity);
+
+  const [{ opacity }, dragRef] = useDrag({
+    type: 'ingredient',
+    item: { ...data },
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.4 : 1,
+    }),
+  });
+
   return (
-    <div onClick={() => handleClickIngredients(item)} className={styles['ingredients-item']}>
-      <Counter count={1} size="default" />
-      <img height={120} width={240} src={item.image} alt={item.name} />
-      <div className={`${styles['price-wrapper']} mt-2 mb-2`}>
-        <span className="text text_type_digits-default">{item.price}</span>
+    <li className={styles.ingredientItem} ref={dragRef} style={{ ...styles, opacity }}>
+      {ingredientQuantity > 0 && (
+        <Counter className="counter-card" count={ingredientQuantity} size="default" />
+      )}
+      <img
+        className={`${styles.ingredientImage} ml-4 mr-4 mb-1`}
+        src={data.image}
+        alt={data.name}
+        onClick={() => openIngredientDetailsModal(data)}></img>
+      <div className={`${styles.ingredientPrice} mb-1 text text_type_main-default`}>
+        <span className="mr-2 text text_type_digits-default">{data.price}</span>
         <CurrencyIcon type="primary" />
       </div>
-
-      <h3 className="text text_type_main-default pb-6">{item.name}</h3>
-    </div>
+      <p className={`${styles.ingredientName} text text_type_main-default`}>{data.name}</p>
+    </li>
   );
 };
 
-IngredientsItem.propTypes = {
-  item: ingredientPropTypes.isRequired,
-  handleClickIngredients: PropTypes.func.isRequired,
+Ingredient.propTypes = {
+  data: ingredientPropTypes.isRequired,
 };
 
-export default IngredientsItem;
+export default Ingredient;

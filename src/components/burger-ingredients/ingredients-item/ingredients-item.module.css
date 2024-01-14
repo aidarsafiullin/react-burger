@@ -1,19 +1,21 @@
-.section {
-  width: 600px;
-}
-
-.ingredients-item {
+.ingredientItem {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 272px;
-  text-align: center;
+  background-color: #131316;
+}
+
+.ingredientImage:hover {
   cursor: pointer;
 }
 
-.price-wrapper {
+.ingredientPrice {
   display: flex;
-  gap: 8px;
-  height: 24px;
+  align-items: center;
+}
+
+.ingredientName {
+  min-height: 48px;
+  text-align: center;
 }

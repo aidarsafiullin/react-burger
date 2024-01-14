@@ -7,6 +7,12 @@ export const IngredientTypes = {
 export const URL_INGREDIENTS = 'https://norma.nomoreparties.space/api/ingredients';
 export const URL_ORDERS = 'https://norma.nomoreparties.space/api/orders';
 
+export const fetchAllIngredients = (store) => store.ingredients;
+export const fetchSingleIngredient = (store) => store.ingredient;
+export const fetchBurgerConstructor = (store) => store.burgerConstructor;
+export const fetchOrderDetails = (store) => store.order;
+export const fetchBurgerFillings = (store) => store.burgerConstructor.fillings;
+
 export const IngredientDetail = [
   {
     id: 0,

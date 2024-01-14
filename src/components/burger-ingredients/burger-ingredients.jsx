@@ -1,54 +1,55 @@
-import { useState, useContext, useRef, useEffect, createRef } from 'react';
-
+import React, { useState, useRef, useEffect, createRef } from 'react';
+import { useSelector } from 'react-redux';
 import styles from './burger-ingredients.module.css';
 import { IngredientTypes } from '../../utils/constants';
 import IngredientsFilter from './ingredients-filter/ingredients-filter';
 import IngredientsMenu from './ingredients-menu/ingredients-menu';
-import { IngredientsContext } from 'src/utils/contexts';
+import { fetchAllIngredients } from '../../utils/constants';
 
 const BurgerIngredients = () => {
-  const filter = Object.keys(IngredientTypes);
-  const [activeIngredientType, setActiveIngredientType] = useState(0);
-  const [filterBottom, setFilterBottom] = useState();
-  const ingredients = useContext(IngredientsContext);
-  const filterRef = useRef(null);
+  const { ingredients } = useSelector(fetchAllIngredients);
 
-  const h2Refs = Array(filter.length)
+  const ingredientTypeKeys = Object.keys(IngredientTypes);
+  const [activeIngredientTypeIndex, setActiveIngredientTypeIndex] = useState(0);
+  const [filterBottomPosition, setFilterBottomPosition] = useState();
+  const filterContainerRef = useRef(null);
+
+  const ingredientTypeRefs = Array(ingredientTypeKeys.length)
     .fill(null)
     .map(() => createRef());
 
   useEffect(() => {
-    setFilterBottom(filterRef.current.getBoundingClientRect().bottom);
+    setFilterBottomPosition(filterContainerRef.current.getBoundingClientRect().bottom);
   }, []);
 
   const handleScroll = () => {
-    const smallestDistId = h2Refs.reduce((minDistId, h2, id) => {
-      const dist = Math.abs(filterBottom - h2.current.getBoundingClientRect().top);
+    const closestIngredientTypeIndex = ingredientTypeRefs.reduce((minDistIndex, typeRef, index) => {
+      const distance = Math.abs(filterBottomPosition - typeRef.current.getBoundingClientRect().top);
 
-      if (minDistId === null || dist < minDistId.dist) {
-        return { id, dist };
+      if (minDistIndex === null || distance < minDistIndex.distance) {
+        return { index, distance };
       } else {
-        return minDistId;
+        return minDistIndex;
       }
     }, null);
 
-    setActiveIngredientType(smallestDistId.id);
+    setActiveIngredientTypeIndex(closestIngredientTypeIndex.index);
   };
 
   return (
     <section className={styles.section}>
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
       <IngredientsFilter
-        filter={filter}
-        filterRef={filterRef}
+        filter={ingredientTypeKeys}
+        filterRef={filterContainerRef}
         IngredientTypes={IngredientTypes}
-        activeIngredientType={activeIngredientType}
-        setActiveIngredientType={setActiveIngredientType}
+        activeIngredientType={activeIngredientTypeIndex}
+        setActiveIngredientType={setActiveIngredientTypeIndex}
       />
       <IngredientsMenu
         ingredients={ingredients}
-        filter={filter}
-        h2Refs={h2Refs}
+        filter={ingredientTypeKeys}
+        ingredientTypeRefs={ingredientTypeRefs}
         onScroll={handleScroll}
         IngredientTypes={IngredientTypes}
       />
