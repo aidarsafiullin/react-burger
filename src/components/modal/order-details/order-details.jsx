@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './order-details.module.css';
 import done from '../../../images/done-icon.png';
+import PropTypes from 'prop-types';
 
-const OrderDetails = ({ orderId, loading, error }) => {
+const OrderDetails = ({ orderId, error }) => {
   return (
     <>
-      {loading && <div>Идет загрузка...</div>}
       {error && <div>{`Проблема с получением данных - ${error}`}</div>}
       {orderId && (
         <>
@@ -20,6 +20,11 @@ const OrderDetails = ({ orderId, loading, error }) => {
       )}
     </>
   );
+};
+
+OrderDetails.propTypes = {
+  orderId: PropTypes.number.isRequired,
+  error: PropTypes.bool.isRequired,
 };
 
 export default OrderDetails;

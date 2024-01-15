@@ -22,7 +22,7 @@
 }
 
 .ingredient-type-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px 24px;
+  grid-gap: 32px 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }

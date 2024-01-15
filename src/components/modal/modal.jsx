@@ -6,18 +6,17 @@ import ModalHeader from './modal-header/modal-header';
 import PropTypes from 'prop-types';
 const modalRoot = document.getElementById('modal');
 
-const Modal = ({ isModalOpen, closeModal, children, title }) => {
+const Modal = ({ closeModal, children, title }) => {
   React.useEffect(() => {
-    if (!isModalOpen) return;
     const closeOnEscapeKey = (e) => (e.key === 'Escape' ? closeModal() : null);
     document.body.addEventListener('keydown', closeOnEscapeKey);
     return () => {
       document.body.removeEventListener('keydown', closeOnEscapeKey);
     };
-  }, [closeModal, isModalOpen]);
+  }, [closeModal]);
 
   return createPortal(
-    <div className={`${styles.wrapper} ${isModalOpen ? styles.visible : ''}`}>
+    <div className={`${styles.wrapper}`}>
       <div className={styles.modal}>
         <ModalHeader title={title} closeModal={closeModal} />
         {children}
@@ -29,8 +28,8 @@ const Modal = ({ isModalOpen, closeModal, children, title }) => {
 };
 
 Modal.propTypes = {
-  isModalOpen: PropTypes.bool.isRequired,
   title: PropTypes.string,
+  children: PropTypes.object.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
 

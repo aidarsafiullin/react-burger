@@ -1,43 +1,84 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrag, useDrop } from 'react-dnd';
+import PropTypes from 'prop-types';
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { deleteIngredient, moveIngredient } from '../../../services/actions/burger-constructor';
+import { decreaseCount } from '../../../services/actions/ingredients';
+import { ingredientPropTypes } from '../../../utils/types';
+import { fetchBurgerFillings } from '../../../utils/constants';
 import styles from './constructor-content.module.css';
-import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientsContext } from 'src/utils/contexts';
 
-const ConstructorContent = () => {
-  const ingredients = React.useContext(IngredientsContext);
+const ConstructorIngredient = ({ data, index }) => {
+  const { _id, name, price, image } = data.info;
+
+  const allFillings = useSelector(fetchBurgerFillings);
+  const dispatch = useDispatch();
+
+  const handleDeleteIngredient = () => {
+    dispatch(deleteIngredient(data.id));
+    dispatch(decreaseCount(_id, 1));
+  };
+
+  const ref = useRef(null);
+  const id = data.id;
+
+  const [{ isDragging }, dragRef] = useDrag({
+    type: 'item',
+    item: { id, index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  const [, dropRef] = useDrop({
+    accept: 'item',
+    hover: (draggedItem, monitor) => {
+      const draggedIndex = draggedItem.index;
+      const targetIndex = index;
+
+      if (draggedIndex === targetIndex) return;
+
+      const targetBoundingRect = ref.current?.getBoundingClientRect();
+      const targetMiddleY = (targetBoundingRect.bottom - targetBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const clientOffsetY = clientOffset.y - targetBoundingRect.top;
+
+      const isAboveAndBeyondMiddle = draggedIndex < targetIndex && clientOffsetY < targetMiddleY;
+      const isBelowAndBeyondMiddle = draggedIndex > targetIndex && clientOffsetY > targetMiddleY;
+
+      if (isAboveAndBeyondMiddle || isBelowAndBeyondMiddle) return;
+
+      dispatch(moveIngredient(allFillings, draggedIndex, targetIndex));
+      draggedItem.index = targetIndex;
+    },
+  });
+
+  dragRef(dropRef(ref));
+
+  const opacity = isDragging ? 0.4 : 1;
 
   return (
-    <div className={`${styles['constructor-content']} mb-10`}>
+    <li className={`${styles.item} pl-4 pr-4`} ref={ref} style={{ opacity }}>
+      <DragIcon type="primary" />
       <ConstructorElement
-        extraClass={styles['constructor-element-locked']}
-        type="top"
-        isLocked={true}
-        text={'Краторная булка N-200i (верх)'}
-        price={ingredients[0].price}
-        thumbnail={ingredients[0].image}
+        isLocked={false}
+        text={name}
+        price={price}
+        index={_id}
+        thumbnail={image}
+        handleClose={handleDeleteIngredient}
       />
-      <div className={`${styles['constructor-scroll-area']} pr-2`}>
-        {ingredients.map((item, index) => {
-          if (item.type !== 'bun') {
-            return (
-              <div key={item._id} className={styles['constructor-element-wrapper']}>
-                <DragIcon type="primary" />
-                <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
-              </div>
-            );
-          }
-        })}
-      </div>
-      <ConstructorElement
-        extraClass={styles['constructor-element-locked']}
-        type="bottom"
-        isLocked={true}
-        text={'Краторная булка N-200i (низ)'}
-        price={ingredients[0].price}
-        thumbnail={ingredients[0].image}
-      />
-    </div>
+    </li>
   );
 };
 
-export default ConstructorContent;
+ConstructorIngredient.propTypes = {
+  data: PropTypes.shape({
+    info: ingredientPropTypes.isRequired,
+    id: PropTypes.string.isRequired,
+  }),
+  index: PropTypes.number.isRequired,
+};
+
+export default ConstructorIngredient;

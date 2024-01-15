@@ -1,38 +1,6 @@
-.constructor-content {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: flex-end;
-}
-
-.constructor-scroll-area {
-  max-height: calc(100vh - 516px);
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: flex-end;
-}
-
-.constructor-scroll-area::-webkit-scrollbar-thumb {
-  background-color: #8585ad;
-}
-
-.constructor-scroll-area::-webkit-scrollbar-track {
-  background-color: #2f2f37;
-}
-
-.constructor-scroll-area::-webkit-scrollbar {
-  width: 8px;
-}
-
-.constructor-element-locked {
-  margin-right: 16px;
-}
-
-.constructor-element-wrapper {
+.item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 568px;
+  gap: 8px;
+  background-color: #131316;
 }
