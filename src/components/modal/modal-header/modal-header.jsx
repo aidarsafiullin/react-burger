@@ -3,12 +3,11 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import styles from './modal-header.module.css';
 
-const ModalHeader = ({ title, closeModal }) => {
+const ModalHeader = ({ closeModal }) => {
   const [isHoverClose, setHoverClose] = React.useState(false);
 
   return (
-    <div className={`${styles.header} mt-10 `}>
-      <h2 className={`${styles.title} text text_type_main-large`}>{title}</h2>
+    <div>
       <div
         className={styles.close}
         onMouseEnter={() => setHoverClose(true)}

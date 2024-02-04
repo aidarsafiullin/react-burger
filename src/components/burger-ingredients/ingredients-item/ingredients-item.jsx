@@ -2,16 +2,22 @@ import React from 'react';
 import styles from './ingredients-item.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientPropTypes } from '../../../utils/types';
-import { openIngredientDetails } from '../../../services/actions/ingredient-details';
 
 const Ingredient = ({ data }) => {
-  const openIngredientDetailsModal = (ingredient) => {
+  /* const openIngredientDetailsModal = (ingredient) => {
     dispatch(openIngredientDetails(ingredient));
   };
-
-  const dispatch = useDispatch();
+ */
+  const navigate = useNavigate();
+  const location = useLocation();
+  const handleIngredientClick = (ingredient) => {
+    navigate(`/ingredients/${data._id}`, {
+      state: { ingredient: ingredient, background: location },
+    });
+  };
   const getIngredientQuantity = (store) =>
     store.ingredients.ingredients.find((item) => item.info._id === data._id).qty;
 
@@ -26,15 +32,18 @@ const Ingredient = ({ data }) => {
   });
 
   return (
-    <li className={styles.ingredientItem} ref={dragRef} style={{ ...styles, opacity }}>
+    <li
+      className={styles.ingredientItem}
+      ref={dragRef}
+      style={{ ...styles, opacity }}
+      onClick={() => handleIngredientClick(data)}>
       {ingredientQuantity > 0 && (
         <Counter className="counter-card" count={ingredientQuantity} size="default" />
       )}
       <img
         className={`${styles.ingredientImage} ml-4 mr-4 mb-1`}
         src={data.image}
-        alt={data.name}
-        onClick={() => openIngredientDetailsModal(data)}></img>
+        alt={data.name}></img>
       <div className={`${styles.ingredientPrice} mb-1 text text_type_main-default`}>
         <span className="mr-2 text text_type_digits-default">{data.price}</span>
         <CurrencyIcon type="primary" />

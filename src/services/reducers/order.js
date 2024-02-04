@@ -10,7 +10,7 @@ const initialState = {
 export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.ORDER_CHECKOUT_REQUEST:
-      return { ...state, orderRequest: true };
+      return { ...state, orderRequest: true, openModal: true };
     case ActionTypes.ORDER_CHECKOUT_SUCCESS:
       return {
         ...state,

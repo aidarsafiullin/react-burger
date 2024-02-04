@@ -19,7 +19,7 @@ import styles from './burger-constructor.module.css';
 const BurgerConstructor = () => {
   const { bun: selectedBun, fillings: selectedFillings } = useSelector(fetchBurgerConstructor);
   const { ingredients: allIngredients } = useSelector(fetchAllIngredients);
-  const { orderId, openModal, orderFailed } = useSelector(fetchOrderDetails);
+
   const dispatch = useDispatch();
 
   const [, dropTarget] = useDrop({
@@ -42,6 +42,8 @@ const BurgerConstructor = () => {
       }
     },
   });
+
+  const { orderId, openModal, orderFailed } = useSelector(fetchOrderDetails);
 
   const closeOrderModal = () => {
     dispatch(closeOrder());
@@ -118,10 +120,10 @@ const BurgerConstructor = () => {
 
         <Checkout totalPrice={totalPrice || 0} />
       </section>
-
+      {console.log('openModal', openModal)}
       {openModal && (
         <Modal closeModal={closeOrderModal}>
-          <OrderDetails orderId={orderId} error={orderFailed} />
+          <OrderDetails orderId={orderId} />
         </Modal>
       )}
     </>

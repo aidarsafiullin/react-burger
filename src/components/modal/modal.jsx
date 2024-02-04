@@ -18,7 +18,7 @@ const Modal = ({ closeModal, children, title }) => {
   return createPortal(
     <div className={`${styles.wrapper}`}>
       <div className={styles.modal}>
-        <ModalHeader title={title} closeModal={closeModal} />
+        <ModalHeader closeModal={closeModal} />
         {children}
       </div>
       <ModalOverlay closeModal={closeModal} />

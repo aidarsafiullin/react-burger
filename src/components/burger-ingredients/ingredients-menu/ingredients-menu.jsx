@@ -3,8 +3,7 @@ import Ingredient from '../ingredients-item/ingredients-item';
 import IngredientDetails from 'src/components/modal/ingredient-details/ingredient-details';
 import Modal from 'src/components/modal/modal';
 import styles from './ingredients-menu.module.css';
-import { fetchSingleIngredient } from '../../../utils/constants';
-import { closeIngredientDetails } from '../../../services/actions/ingredient-details';
+import { fetchSingleIngredient, fetchAllIngredients } from '../../../utils/constants';
 import PropTypes from 'prop-types';
 
 const IngredientsMenu = ({
@@ -14,11 +13,11 @@ const IngredientsMenu = ({
   IngredientTypes,
   onScroll,
 }) => {
-  const dispatch = useDispatch();
+  /*   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch(closeIngredientDetails());
   };
-  const { ingredient } = useSelector(fetchSingleIngredient);
+  const { ingredient } = useSelector(fetchSingleIngredient); */
 
   return (
     <>
@@ -40,11 +39,11 @@ const IngredientsMenu = ({
           );
         })}
       </section>
-      {ingredient && (
+      {/* {ingredient && (
         <Modal title={'Детали ингредиента'} closeModal={closeModal}>
           <IngredientDetails ingredient={ingredient} />
         </Modal>
-      )}
+      )} */}
     </>
   );
 };
