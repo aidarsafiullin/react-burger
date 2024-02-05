@@ -1,0 +1,9 @@
+export const fetchAllIngredients = (store) => store.ingredients;
+export const fetchSingleIngredient = (store) => store.ingredient;
+export const fetchBurgerConstructor = (store) => store.burgerConstructor;
+export const fetchOrderDetails = (store) => store.order;
+export const fetchBurgerFillings = (store) => store.burgerConstructor.fillings;
+export const getUser = (store) => store.auth.user;
+export const getPassword = (store) => store.auth.password;
+export const getPwdResetRequested = (store) => store.auth.pwdResetRequested;
+export const getPwdSubmitSuccess = (store) => store.auth.pwdSubmitSuccess;

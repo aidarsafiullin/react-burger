@@ -43,7 +43,7 @@ const placeOrder = (ingredients) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ ingredients }),
-  });
+  }).then(checkResponse);
 };
 
 const register = (name, email, password) =>
@@ -69,7 +69,7 @@ const getUser = () => {
       authorization: 'Bearer ' + accessToken,
       'Content-Type': 'application/json',
     },
-  });
+  }).then(checkResponse);
 };
 
 const updateUser = ({ name, email, password }) => {

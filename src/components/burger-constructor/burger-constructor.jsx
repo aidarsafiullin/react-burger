@@ -13,7 +13,7 @@ import {
   fetchAllIngredients,
   fetchBurgerConstructor,
   fetchOrderDetails,
-} from '../../utils/constants';
+} from '../../services/selectors';
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {
@@ -120,9 +120,8 @@ const BurgerConstructor = () => {
 
         <Checkout totalPrice={totalPrice || 0} />
       </section>
-      {console.log('openModal', openModal)}
       {openModal && (
-        <Modal closeModal={closeOrderModal}>
+        <Modal closeModal={() => closeOrderModal(orderFailed)}>
           <OrderDetails orderId={orderId} />
         </Modal>
       )}

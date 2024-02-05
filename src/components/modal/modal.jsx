@@ -6,7 +6,7 @@ import ModalHeader from './modal-header/modal-header';
 import PropTypes from 'prop-types';
 const modalRoot = document.getElementById('modal');
 
-const Modal = ({ closeModal, children, title }) => {
+const Modal = ({ closeModal, children }) => {
   React.useEffect(() => {
     const closeOnEscapeKey = (e) => (e.key === 'Escape' ? closeModal() : null);
     document.body.addEventListener('keydown', closeOnEscapeKey);

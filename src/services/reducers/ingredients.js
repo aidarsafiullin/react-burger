@@ -24,6 +24,20 @@ const handleFailure = (state) => ({
   ingredientsFailed: true,
 });
 
+const handleIncrease = (state, action) => ({
+  ...state,
+  ingredients: [...state.ingredients].map((item) =>
+    item.info._id === action.id ? { ...item, qty: item.qty + action.count } : item,
+  ),
+});
+
+const handleDecrease = (state, action) => ({
+  ...state,
+  ingredients: [...state.ingredients].map((item) =>
+    item.info._id === action.id ? { ...item, qty: item.qty - action.count } : item,
+  ),
+});
+
 const handleCountChange = (state, action) => {
   const updatedIngredients = state.ingredients.map((item) =>
     item.info._id === action.id
@@ -49,7 +63,9 @@ export const ingredientsReducer = (state = initialState, action) => {
     case ActionTypes.GET_INGREDIENTS_FAILED:
       return handleFailure(state);
     case ActionTypes.INCREASE_COUNT:
+      return handleIncrease(state, action);
     case ActionTypes.DECREASE_COUNT:
+      return handleDecrease(state, action);
     case ActionTypes.SET_COUNT:
       return handleCountChange(state, action);
     default:

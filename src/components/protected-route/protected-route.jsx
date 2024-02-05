@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
-import { getUser } from '../../utils/constants';
+import { getUser } from '../../services/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCookie } from '../../utils/cookies';
 import { getUserInfo } from '../../services/actions/auth';

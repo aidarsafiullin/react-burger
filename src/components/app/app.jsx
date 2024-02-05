@@ -1,4 +1,6 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import Modal from '../modal/modal';
 import IngredientDetails from '../modal/ingredient-details/ingredient-details';
 import Layout from '../layout/layout';
@@ -14,11 +16,16 @@ import {
   OrdersPage,
 } from '../../pages';
 import ProtectedRoute from '../protected-route/protected-route';
+import { getIngredients } from '../../services/actions/ingredients';
 
 const App = () => {
   const location = useLocation();
   const background = location.state?.background;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
 
   return (
     <>

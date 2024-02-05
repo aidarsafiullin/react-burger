@@ -145,7 +145,6 @@ export const getUserInfo = () => {
       type: GET_USER_REQUEST,
     });
     getUser()
-      .then((res) => res.json())
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -163,7 +162,6 @@ export const getUserInfo = () => {
                   type: GET_USER_REQUEST,
                 });
                 getUser()
-                  .then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
                   .then((res) => {
                     if (res && res.success) {
                       dispatch({
@@ -211,7 +209,6 @@ export const updateUserInfo = ({ name, email, password }) => {
       type: UPDATE_USER_REQUEST,
     });
     updateUser({ name, email, password })
-      .then((res) => res.json())
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -233,7 +230,6 @@ export const updateUserInfo = ({ name, email, password }) => {
                   type: UPDATE_USER_REQUEST,
                 });
                 updateUser({ name, email, password })
-                  .then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
                   .then((res) => {
                     if (res && res.success) {
                       dispatch({

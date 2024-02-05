@@ -4,7 +4,7 @@ import Profile from '../../components/profile/profile';
 import { useState } from 'react';
 import { getCookie } from '../../utils/cookies';
 import { logoutUser } from '../../services/actions/auth';
-import { getUser, getPassword } from '../../utils/constants';
+import { getUser, getPassword } from '../../services/selectors';
 import {
   Input,
   EmailInput,

@@ -37,9 +37,11 @@ const AppHeader = () => {
             </span>
           </NavLink>
         </nav>
-        <div className={styles.logo}>
-          <Logo />
-        </div>
+        <NavLink to="/">
+          <div className={styles.logo}>
+            <Logo />
+          </div>
+        </NavLink>
         <NavLink to="/profile" className={`${styles.profile} p-5`}>
           <ProfileIcon type={pathname === '/profile' ? 'primary' : 'secondary'} />
           <p

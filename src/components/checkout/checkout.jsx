@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { URL_ORDERS } from '../../utils/constants';
 import { checkoutOrder } from '../../services/actions/order';
-import { fetchBurgerConstructor, getUser } from '../../utils/constants';
+import { fetchBurgerConstructor, getUser } from '../../services/selectors';
 import styles from './checkout.module.css';
 import { getCookie } from '../../utils/cookies';
 

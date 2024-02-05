@@ -4,7 +4,7 @@ import styles from './burger-ingredients.module.css';
 import { IngredientTypes } from '../../utils/constants';
 import IngredientsFilter from './ingredients-filter/ingredients-filter';
 import IngredientsMenu from './ingredients-menu/ingredients-menu';
-import { fetchAllIngredients } from '../../utils/constants';
+import { fetchAllIngredients } from '../../services/selectors';
 
 const BurgerIngredients = () => {
   const { ingredients } = useSelector(fetchAllIngredients);

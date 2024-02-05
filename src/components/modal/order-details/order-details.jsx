@@ -1,7 +1,7 @@
 import styles from './order-details.module.css';
 import done from '../../../images/done-icon.png';
 import { useSelector } from 'react-redux';
-import { fetchOrderDetails } from '../../../utils/constants';
+import { fetchOrderDetails } from '../../../services/selectors';
 
 const OrderDetails = () => {
   const { orderId, orderFailed } = useSelector(fetchOrderDetails);

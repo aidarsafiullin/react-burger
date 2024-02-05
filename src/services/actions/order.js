@@ -26,7 +26,6 @@ export const checkoutOrder = (ingredients) => {
   return function (dispatch) {
     dispatch(checkoutOrderRequest());
     placeOrder(ingredients)
-      .then((res) => res.json())
       .then((res) => {
         if (res.success) {
           dispatch(checkoutOrderSuccess(res.order));
@@ -39,7 +38,6 @@ export const checkoutOrder = (ingredients) => {
                 setCookie('refreshToken', res.refreshToken);
                 dispatch(checkoutOrderRequest());
                 placeOrder(ingredients)
-                  .then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
                   .then((res) => {
                     if (res && res.success) {
                       dispatch(checkoutOrderSuccess(res.order));
