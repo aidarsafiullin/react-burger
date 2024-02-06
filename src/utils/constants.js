@@ -4,14 +4,17 @@ export const IngredientTypes = {
   main: 'Начинки',
 };
 
-export const URL_INGREDIENTS = 'https://norma.nomoreparties.space/api/ingredients';
-export const URL_ORDERS = 'https://norma.nomoreparties.space/api/orders';
-
-export const fetchAllIngredients = (store) => store.ingredients;
-export const fetchSingleIngredient = (store) => store.ingredient;
-export const fetchBurgerConstructor = (store) => store.burgerConstructor;
-export const fetchOrderDetails = (store) => store.order;
-export const fetchBurgerFillings = (store) => store.burgerConstructor.fillings;
+const BASE_URL = 'https://norma.nomoreparties.space/api';
+export const URL_INGREDIENTS = `${BASE_URL}/ingredients`;
+export const URL_ORDERS = `${BASE_URL}/orders`;
+export const urlLogin = `${BASE_URL}/auth/login`;
+export const urlRegister = `${BASE_URL}/auth/register`;
+export const urlLogout = `${BASE_URL}/auth/logout`;
+export const urlToken = `${BASE_URL}/auth/token`;
+export const urlReset = `${BASE_URL}/password-reset`;
+export const urlUser = `${BASE_URL}/auth/user`;
+export const urlPwdReset = `${BASE_URL}/password-reset`;
+export const urlPwdSubmit = `${BASE_URL}/password-reset/reset`;
 
 export const IngredientDetail = [
   {

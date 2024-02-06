@@ -6,7 +6,7 @@ import ModalHeader from './modal-header/modal-header';
 import PropTypes from 'prop-types';
 const modalRoot = document.getElementById('modal');
 
-const Modal = ({ closeModal, children, title }) => {
+const Modal = ({ closeModal, children }) => {
   React.useEffect(() => {
     const closeOnEscapeKey = (e) => (e.key === 'Escape' ? closeModal() : null);
     document.body.addEventListener('keydown', closeOnEscapeKey);
@@ -18,7 +18,7 @@ const Modal = ({ closeModal, children, title }) => {
   return createPortal(
     <div className={`${styles.wrapper}`}>
       <div className={styles.modal}>
-        <ModalHeader title={title} closeModal={closeModal} />
+        <ModalHeader closeModal={closeModal} />
         {children}
       </div>
       <ModalOverlay closeModal={closeModal} />

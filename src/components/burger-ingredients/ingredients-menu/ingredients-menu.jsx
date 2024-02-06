@@ -1,10 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
 import Ingredient from '../ingredients-item/ingredients-item';
-import IngredientDetails from 'src/components/modal/ingredient-details/ingredient-details';
-import Modal from 'src/components/modal/modal';
 import styles from './ingredients-menu.module.css';
-import { fetchSingleIngredient } from '../../../utils/constants';
-import { closeIngredientDetails } from '../../../services/actions/ingredient-details';
 import PropTypes from 'prop-types';
 
 const IngredientsMenu = ({
@@ -14,12 +9,6 @@ const IngredientsMenu = ({
   IngredientTypes,
   onScroll,
 }) => {
-  const dispatch = useDispatch();
-  const closeModal = () => {
-    dispatch(closeIngredientDetails());
-  };
-  const { ingredient } = useSelector(fetchSingleIngredient);
-
   return (
     <>
       <section onScroll={onScroll} className={`${styles.section} pt-10`}>
@@ -40,11 +29,6 @@ const IngredientsMenu = ({
           );
         })}
       </section>
-      {ingredient && (
-        <Modal title={'Детали ингредиента'} closeModal={closeModal}>
-          <IngredientDetails ingredient={ingredient} />
-        </Modal>
-      )}
     </>
   );
 };

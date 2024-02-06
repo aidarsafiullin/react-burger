@@ -13,12 +13,18 @@
 .nav {
   display: flex;
   margin-right: 112px;
+  text-decoration: none;
+}
+
+.nav a {
+  text-decoration: none;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .logo {
@@ -28,4 +34,6 @@
 .profile {
   display: flex;
   cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
 }

@@ -6,7 +6,7 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 import { deleteIngredient, moveIngredient } from '../../../services/actions/burger-constructor';
 import { decreaseCount } from '../../../services/actions/ingredients';
 import { ingredientPropTypes } from '../../../utils/types';
-import { fetchBurgerFillings } from '../../../utils/constants';
+import { fetchBurgerFillings } from '../../../services/selectors';
 import styles from './constructor-content.module.css';
 
 const ConstructorIngredient = ({ data, index }) => {

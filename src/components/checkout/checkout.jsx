@@ -1,14 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { URL_ORDERS } from '../../utils/constants';
 import { checkoutOrder } from '../../services/actions/order';
-import { fetchBurgerConstructor } from '../../utils/constants';
+import { fetchBurgerConstructor, getUser } from '../../services/selectors';
 import styles from './checkout.module.css';
+import { getCookie } from '../../utils/cookies';
 
 const Checkout = ({ totalPrice }) => {
+  const user = useSelector(getUser);
+  const { pathname } = useLocation;
+  const refreshToken = getCookie('refreshToken');
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { bun, fillings } = useSelector(fetchBurgerConstructor);
 
   const handleCheckout = () => {
@@ -17,7 +23,10 @@ const Checkout = ({ totalPrice }) => {
       ...(fillings || []).map((filling) => filling.info._id),
       bun?.info?._id,
     ];
-    dispatch(checkoutOrder(URL_ORDERS, orderIngredients));
+
+    user || refreshToken
+      ? dispatch(checkoutOrder(orderIngredients))
+      : navigate('/login', { state: { prev: pathname } });
   };
 
   return (
