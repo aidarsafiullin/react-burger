@@ -34,7 +34,7 @@ const fetchData = (url, method, data = null) => {
 
 const getIngredientsData = () => fetchData(URL_INGREDIENTS, 'GET');
 
-const placeOrder = (ingredients) => {
+const placeOrderRequest = (ingredients) => {
   const accessToken = getCookie('accessToken');
   return fetch(URL_ORDERS, {
     method: 'POST',
@@ -116,7 +116,7 @@ const updateTokenRequest = (refreshToken) => {
 
 export {
   getIngredientsData,
-  placeOrder,
+  placeOrderRequest,
   register,
   login,
   logout,
