@@ -1,5 +1,4 @@
-import { getIngredientsData } from '../../utils/api';
-
+import { getIngredientsRequest } from '../../utils/api';
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -49,12 +48,13 @@ export type TIngredientsActions =
   | IIncreaseCount
   | IDecreaseCount
   | ISetCount;
+
 export const getIngredients = () => {
   return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     });
-    getIngredientsData()
+    getIngredientsRequest()
       .then((res) => {
         if (res && res.success) {
           dispatch({

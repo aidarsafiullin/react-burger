@@ -1,15 +1,15 @@
 import {
-  register,
-  login,
-  logout,
-  getUser,
-  updateUser,
+  registerRequest,
+  loginRequest,
+  logoutRequest,
+  getUserRequest,
+  updateUserRequest,
   pwdResetRequest,
   pwdSubmitRequest,
   updateTokenRequest,
 } from '../../utils/api';
 
-import { getCookie, setCookie, deleteCookie } from '../../utils/cookies';
+import { setCookie, deleteCookie, getCookie } from '../../utils/cookies';
 
 import {
   REGISTER_REQUEST,
@@ -185,7 +185,7 @@ export const registerUser = ({ name, email, password }: TUserFormState) => {
     dispatch({
       type: REGISTER_REQUEST,
     });
-    register({ name, email, password })
+    registerRequest({ name, email, password })
       .then((res) => {
         if (res && res.success) {
           setCookie('accessToken', res.accessToken.split('Bearer ')[1]);
@@ -218,7 +218,7 @@ export const loginUser = ({ email, password }: TLoginFormState) => {
     dispatch({
       type: LOGIN_REQUEST,
     });
-    login({ email, password })
+    loginRequest({ email, password })
       .then((res) => {
         if (res && res.success) {
           setCookie('accessToken', res.accessToken.split('Bearer ')[1]);
@@ -251,7 +251,7 @@ export const logoutUser = (refreshToken: string) => {
     dispatch({
       type: LOGOUT_REQUEST,
     });
-    logout(refreshToken)
+    logoutRequest(refreshToken)
       .then((res) => {
         if (res && res.success) {
           deleteCookie('refreshToken');
@@ -279,7 +279,8 @@ export const getUserInfo = () => {
     dispatch({
       type: GET_USER_REQUEST,
     });
-    getUser()
+    getUserRequest()
+      .then((res) => res.json())
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -296,7 +297,8 @@ export const getUserInfo = () => {
                 dispatch({
                   type: GET_USER_REQUEST,
                 });
-                getUser()
+                getUserRequest()
+                  .then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
                   .then((res) => {
                     if (res && res.success) {
                       dispatch({
@@ -343,7 +345,8 @@ export const updateUserInfo = ({ name, email, password }: TUserFormState) => {
     dispatch({
       type: UPDATE_USER_REQUEST,
     });
-    updateUser({ name, email, password })
+    updateUserRequest({ name, email, password })
+      .then((res) => res.json())
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -364,7 +367,8 @@ export const updateUserInfo = ({ name, email, password }: TUserFormState) => {
                 dispatch({
                   type: UPDATE_USER_REQUEST,
                 });
-                updateUser({ name, email, password })
+                updateUserRequest({ name, email, password })
+                  .then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
                   .then((res) => {
                     if (res && res.success) {
                       dispatch({
