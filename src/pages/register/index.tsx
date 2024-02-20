@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, ChangeEvent, FormEvent, useState } from 'react';
 import styles from '../form.module.css';
 import { registerUser } from '../../services/actions/auth';
 import { useDispatch } from '../../hooks';
@@ -20,13 +20,13 @@ const initialFormState: TUserFormState = {
 export const RegisterPage = () => {
   const dispatch = useDispatch();
 
-  const submitRegistration = (e: SyntheticEvent) => {
+  const submitRegistration = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     dispatch(registerUser(form));
   };
 
-  const onChange = (e: { target: { name: any; value: any } }) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 

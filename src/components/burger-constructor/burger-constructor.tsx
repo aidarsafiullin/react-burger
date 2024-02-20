@@ -36,7 +36,7 @@ const BurgerConstructor = () => {
       } else {
         dispatch(setCount(ingredient.info._id, 2));
         allIngredients.forEach(
-          (item: any) =>
+          (item) =>
             item.info.type === 'bun' &&
             item.info._id !== ingredient.info._id &&
             dispatch(setCount(item.info._id, 0)),
@@ -61,7 +61,7 @@ const BurgerConstructor = () => {
 
   const totalPrice = useMemo(() => {
     const fillingsPrice = selectedFillings.reduce(
-      (price: any, filling: { info: { price: any } }) => price + filling.info.price,
+      (price, filling) => price + filling.info.price,
       0,
     );
     const bunPrice = selectedBun ? selectedBun.info.price * 2 : 0;
@@ -93,7 +93,7 @@ const BurgerConstructor = () => {
 
           {selectedFillings.length ? (
             <ul className={`${styles.list__scroll} custom-scroll`}>
-              {selectedFillings.map((filling: any, index: any) => (
+              {selectedFillings.map((filling, index) => (
                 <ConstructorIngredient data={filling} key={filling.id} index={index} />
               ))}
             </ul>

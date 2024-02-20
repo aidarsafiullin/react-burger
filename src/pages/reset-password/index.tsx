@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../form.module.css';
 import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { SyntheticEvent, useEffect } from 'react';
+import { SyntheticEvent, FormEvent, ChangeEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from '../../hooks';
 import { useState } from 'react';
 import { TResetFormState } from '../../services/types/data';
@@ -9,6 +9,9 @@ import { submitPassword } from '../../services/actions/auth';
 import { getPwdResetRequested, getPwdSubmitSuccess } from '../../services/selectors';
 
 export const ResetPasswordPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const initialFormState: TResetFormState = {
     password: '',
     token: '',
@@ -18,14 +21,11 @@ export const ResetPasswordPage = () => {
   const pwdResetRequested = useSelector(getPwdResetRequested);
   const pwdSubmitSuccess = useSelector(getPwdSubmitSuccess);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const onChange = (e: { target: { name: any; value: any } }) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handlePasswordSubmit = (e: SyntheticEvent) => {
+  const handlePasswordSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     dispatch(submitPassword(form));

@@ -1,13 +1,12 @@
 import { useDispatch, useSelector } from '../../../hooks';
 import { useDrag, useDrop } from 'react-dnd';
 import { useRef, FC } from 'react';
+import styles from './constructor-content.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { deleteIngredient, moveIngredient } from '../../../services/actions/burger-constructor';
 import { decreaseCount } from '../../../services/actions/ingredients';
-//import { ingredientPropTypes } from '../../../utils/types';
 import { fetchBurgerFillings } from '../../../services/selectors';
 import { TIngredientFilling } from '../../../services/types/data';
-import styles from './constructor-content.module.css';
 
 type TConstructorIngredient = {
   data: TIngredientFilling;
@@ -17,10 +16,11 @@ type TConstructorIngredient = {
 const ConstructorIngredient: FC<TConstructorIngredient> = ({ data, index }) => {
   const { _id, name, price, image } = data.info;
 
-  const allFillings = useSelector(fetchBurgerFillings);
+  const fillings = useSelector(fetchBurgerFillings);
+
   const dispatch = useDispatch();
 
-  const handleDeleteIngredient = () => {
+  const handleDelete = () => {
     dispatch(deleteIngredient(fillingId));
     dispatch(decreaseCount(_id, 1));
   };
@@ -30,7 +30,9 @@ const ConstructorIngredient: FC<TConstructorIngredient> = ({ data, index }) => {
 
   const [{ isDragging }, dragRef] = useDrag({
     type: 'item',
-    item: { fillingId, index },
+    item: () => {
+      return { fillingId, index };
+    },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -38,40 +40,33 @@ const ConstructorIngredient: FC<TConstructorIngredient> = ({ data, index }) => {
 
   const [, dropRef] = useDrop({
     accept: 'item',
-    hover: (draggedItem: TConstructorIngredient, monitor) => {
-      const draggedIndex = draggedItem.index;
-      const targetIndex = index;
-
-      if (draggedIndex === targetIndex) return;
-
-      const targetBoundingRect = ref.current!.getBoundingClientRect();
-      const targetMiddleY = (targetBoundingRect.bottom - targetBoundingRect.top) / 2;
+    hover: (item: TConstructorIngredient, monitor) => {
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      const hoverBoundingRect = ref.current!.getBoundingClientRect();
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const clientOffsetY = clientOffset!.y - targetBoundingRect.top;
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
 
-      const isAboveAndBeyondMiddle = draggedIndex < targetIndex && clientOffsetY < targetMiddleY;
-      const isBelowAndBeyondMiddle = draggedIndex > targetIndex && clientOffsetY > targetMiddleY;
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
 
-      if (isAboveAndBeyondMiddle || isBelowAndBeyondMiddle) return;
-
-      dispatch(moveIngredient(allFillings, draggedIndex, targetIndex));
-      draggedItem.index = targetIndex;
+      dispatch(moveIngredient(fillings, dragIndex, hoverIndex));
+      item.index = hoverIndex;
     },
   });
-
   dragRef(dropRef(ref));
-
-  const opacity = isDragging ? 0.4 : 1;
+  const opacity = isDragging ? 0.3 : 1;
 
   return (
-    <li className={`${styles.item} pl-4 pr-4`} ref={ref} style={{ opacity }}>
+    <li className={`${styles.item} pl-4 pr-4`} ref={ref} style={{ ...styles, opacity }}>
       <DragIcon type="primary" />
       <ConstructorElement
         isLocked={false}
         text={name}
         price={price}
         thumbnail={image}
-        handleClose={handleDeleteIngredient}
+        handleClose={handleDelete}
       />
     </li>
   );

@@ -60,9 +60,3 @@ export type TUser = {
 };
 
 export type TOrderCheckout = (string | undefined)[];
-
-export type TWsMessage = {
-  orders: TOrderData[];
-  total: number | null;
-  totalToday: number | null;
-};

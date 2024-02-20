@@ -1,26 +1,20 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../hooks';
 import styles from './profile.module.css';
 import Profile from '../../components/profile/profile';
-import { useState } from 'react';
-import { getCookie } from '../../utils/cookies';
-import { logoutUser } from '../../services/actions/auth';
+import { ChangeEvent, FormEvent, SyntheticEvent, useState } from 'react';
 import { getUser, getPassword } from '../../services/selectors';
-import {
-  Input,
-  EmailInput,
-  PasswordInput,
-  Button,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect } from 'react';
+import { TUserFormState } from '../../services/types/data';
 import { updateUserInfo } from '../../services/actions/auth';
 
 export const ProfilePage = () => {
   const userInfo = useSelector(getUser);
   const password = useSelector(getPassword);
-  const refreshToken = getCookie('refreshToken');
 
   const dispatch = useDispatch();
-  const formInit = {
+
+  const initialFormState: TUserFormState = {
     name: userInfo?.name || '',
     email: userInfo?.email || '',
     password: password || '******',
@@ -28,10 +22,10 @@ export const ProfilePage = () => {
 
   const description = 'В этом разделе вы можете изменить свои персональные данные';
 
-  const [form, setForm] = useState(formInit);
+  const [form, setForm] = useState<TUserFormState>(initialFormState);
   const [isChanged, setIsChanged] = useState(false);
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setIsChanged(true);
   };
@@ -41,28 +35,24 @@ export const ProfilePage = () => {
       setForm({ name: userInfo.name, email: userInfo.email, password: password });
     } else if (userInfo) {
       setForm({ name: userInfo.name, email: userInfo.email, password: '******' });
-    } else setForm(formInit);
+    } else setForm(initialFormState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo, password]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updateUserInfo(form));
     setIsChanged(false);
   };
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    dispatch(logoutUser(refreshToken));
-  };
-
   const handleCancel = () => {
-    setForm(formInit);
+    setForm(initialFormState);
     setIsChanged(false);
   };
 
   return (
     <div className={`${styles.container}`}>
-      <Profile description={description} onLogout={handleLogout} />
+      <Profile description={description} />
       {userInfo && (
         <form onSubmit={handleSubmit} className={styles.form}>
           <Input
@@ -74,7 +64,8 @@ export const ProfilePage = () => {
             icon="EditIcon"
             extraClass={`mb-6 ${styles.input}`}
           />
-          <EmailInput
+          <Input
+            type="email"
             placeholder="Логин"
             onChange={onChange}
             value={form.email}

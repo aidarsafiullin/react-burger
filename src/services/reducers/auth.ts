@@ -8,8 +8,8 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
-  GET_USER_REQUEST,
   GET_USER_SUCCESS,
+  GET_USER_REQUEST,
   GET_USER_FAILED,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
@@ -25,12 +25,12 @@ import {
   UPDATE_TOKEN_FAILED,
   SET_PASSWORD,
 } from '../constants/auth';
-
 import { TAuthActions } from '../actions/auth';
+import { TAuthState } from '../types/state';
 
-const initialState = {
+const initialState: TAuthState = {
   user: null,
-  password: null,
+  password: '',
   authRequest: false,
   authFailed: false,
   pwdResetRequested: false,

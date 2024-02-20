@@ -13,18 +13,19 @@ type TTotalPrice = {
 };
 
 const Checkout: FC<TTotalPrice> = ({ totalPrice }) => {
+  const { bun, fillings } = useSelector(fetchBurgerConstructor);
+
   const user = useSelector(getUser);
   const { pathname } = useLocation();
   const refreshToken = getCookie('refreshToken');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { bun, fillings } = useSelector(fetchBurgerConstructor);
 
   const handleCheckout = () => {
     const orderIngredients = [
       bun?.info?._id,
-      ...(fillings || []).map((item: any) => item.info._id),
+      ...(fillings || []).map((item) => item.info._id),
       bun?.info?._id,
     ];
 

@@ -1,4 +1,4 @@
-import { TIngredientData, TIngredientFilling, TIngredientInfo, TOrderData, TUser } from './data';
+import { TIngredientData, TIngredientFilling, TIngredientInfo, TUser } from './data';
 
 export type TIngredientsState = {
   ingredients: Array<TIngredientData>;
@@ -28,13 +28,6 @@ export type TAuthState = {
   authFailed: boolean;
   pwdResetRequested: boolean;
   pwdSubmitSuccess: boolean;
-};
-
-export type TWsState = {
-  wsConnected: boolean;
-  orders: TOrderData[];
-  total: number | null;
-  totalToday: number | null;
 };
 
 export type TStoreIngredients = {

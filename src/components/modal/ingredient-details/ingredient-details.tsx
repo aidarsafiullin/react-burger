@@ -17,7 +17,7 @@ const IngredientDetails = () => {
     if (ingredient) {
       setIngredientData(ingredient);
     } else if (ingredients.length) {
-      setIngredientData(ingredients.find((item: any) => item.info._id === id).info);
+      setIngredientData(ingredients.find((item) => item?.info._id === id)?.info);
     }
   }, [id, ingredient, ingredients]);
 
