@@ -10,3 +10,12 @@
   min-width: 520px;
   max-width: 100%;
 }
+
+.img {
+  width: 120px;
+  height: 120px;
+  background-image: url(../../../images/done-icon.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
