@@ -13,50 +13,56 @@ export type TIngredientInfo = {
   readonly image_mobile: string;
   readonly image_large: string;
   readonly __v: number;
-};
+}
 
 export type TIngredientData = {
-  info: TIngredientInfo;
-  qty: number;
-};
+  info: TIngredientInfo,
+  qty: number,
+}
 
 export type TIngredientFilling = {
-  info: TIngredientInfo;
-  id: string;
-};
+  info: TIngredientInfo,
+  id: string,
+}
 
 export type TOrderData = {
-  readonly ingredients: string[];
-  readonly _id: string;
-  readonly name: string;
-  readonly status: string;
-  readonly number: number;
-  readonly createdAt: string;
-};
+  readonly ingredients: string[],
+  readonly _id: string,
+  readonly name: string,
+  readonly status: string,
+  readonly number: number,
+  readonly createdAt: string,
+}
 
 export type TLoginFormState = {
-  email: string;
-  password: string;
-};
+  email: string,
+  password: string,
+}
 
 export type TUserFormState = {
-  name: string;
-  email: string;
-  password: string;
-};
+  name: string,
+  email: string,
+  password: string,
+}
 
 export type TForgotFormState = {
-  email: string;
-};
+  email: string,
+}
 
 export type TResetFormState = {
-  password: string;
-  token: string;
-};
+  password: string,
+  token: string,
+}
 
 export type TUser = {
   name: string;
   email: string;
-};
+}
 
-export type TOrderCheckout = (string | undefined)[];
+export type TOrderCheckout = (string | undefined)[]
+
+export type TWsMessage = {
+  orders: TOrderData[];
+  total: number | null;
+  totalToday: number | null;
+};

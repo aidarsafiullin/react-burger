@@ -1,19 +1,20 @@
+import { Outlet, Navigate, useLocation} from 'react-router-dom';
 import { FC, useEffect } from 'react';
 import { useSelector, useDispatch } from '../../hooks';
-import { Outlet, Navigate, useLocation } from 'react-router-dom';
-import { getUser } from '../../services/selectors';
-import { getCookie } from '../../utils/cookies';
+import { getUser } from '../../utils/state';
 import { getUserInfo } from '../../services/actions/auth';
-
+import { getCookie } from '../../utils/cookies';
 type TProtectedRouteElement = {
   isUserAllowed: Boolean,
-};
+}
 
-const ProtectedRoute: FC<TProtectedRouteElement> = ({ isUserAllowed }) => {
-  const dispatch = useDispatch();
-  const refreshToken = getCookie('refreshToken');
-  const { state, pathname } = useLocation();
+const ProtectedRouteElement: FC<TProtectedRouteElement> = ({isUserAllowed}) => {
+
   const user = useSelector(getUser);
+  const { state, pathname} = useLocation();
+  const refreshToken = getCookie("refreshToken");
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!user && refreshToken) {
@@ -21,15 +22,21 @@ const ProtectedRoute: FC<TProtectedRouteElement> = ({ isUserAllowed }) => {
     }
   }, [refreshToken, user, dispatch]);
 
-  if (user && !isUserAllowed) {
-    return <Navigate to={state?.prev ? state.prev : '/'} />;
-  }
-
   if (!user && !refreshToken && isUserAllowed) {
-    return <Navigate to="/login" state={{ prev: pathname }} />;
+    return (
+      <Navigate to="/login" state={{prev : pathname}}/>
+    )
   }
 
-  return <Outlet />;
+  if (user && !isUserAllowed) {
+    return (
+      <Navigate to={state?.prev ? state.prev : '/'}/>
+    )
+  }
+
+  return (
+    <Outlet/>
+  )
 };
 
-export default ProtectedRoute;
+export default ProtectedRouteElement;

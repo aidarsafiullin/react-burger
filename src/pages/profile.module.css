@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.form {
+  max-width: 480px;
+}
+
+.input input {
+  color: #8585AD;
+}
+
+.handlers {
+  display: flex;
+  justify-content: flex-end;
+}

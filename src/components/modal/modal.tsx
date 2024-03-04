@@ -1,39 +1,47 @@
-import { createPortal } from 'react-dom';
-import React from 'react';
+import ReactDOM from 'react-dom';
 import { FC, ReactNode, useEffect } from 'react';
+import ModalOverlay from '../modal-overlay/modal-overlay';
 import styles from './modal.module.css';
-import ModalOverlay from './modal-overlay/modal-overlay';
-import ModalHeader from './modal-header/modal-header';
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 type TModal = {
-  closeModal: () => void;
-  children: ReactNode;
-};
+  onClose: () => void,
+  children: ReactNode,
+}
 
-const Modal: FC<TModal> = ({ closeModal, children }) => {
-  const modalRoot = document.querySelector('#modal');
+const Modal: FC<TModal> = ({onClose, children}) => {
 
-  React.useEffect(() => {
-    const closeOnEscapeKey = (e: KeyboardEvent) => (e.key === 'Escape' ? closeModal() : null);
-    document.body.addEventListener('keydown', closeOnEscapeKey);
-    return () => {
-      document.body.removeEventListener('keydown', closeOnEscapeKey);
+  const modalContainer = document.querySelector('#modal');
+
+  useEffect(() => {
+
+    const onEscKeydown = (e: KeyboardEvent) => {
+      e.key === "Escape" && onClose();
     };
-  }, [closeModal]);
 
-  return (
-    modalRoot &&
-    createPortal(
-      <div className={`${styles.wrapper}`}>
-        <div className={styles.modal}>
-          <ModalHeader closeModal={closeModal} />
-          {children}
-        </div>
-        <ModalOverlay closeModal={closeModal} />
-      </div>,
-      modalRoot,
-    )
-  );
+    document.addEventListener('keydown', onEscKeydown);
+
+    return () => {
+      document.removeEventListener('keydown', onEscKeydown);
+    };
+  }, [onClose]);
+
+
+  return modalContainer && ReactDOM.createPortal (
+    <>
+      <section className={styles.modal}>
+        <button type="button"
+                onClick={onClose}
+                className={styles.closeBtn}>
+          <CloseIcon type="primary" />
+        </button>
+        {children}
+      </section>
+      <ModalOverlay onClick={onClose} />
+    </>
+    , modalContainer
+  )
+
 };
 
 export default Modal;

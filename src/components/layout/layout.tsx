@@ -1,16 +1,17 @@
-import styles from './layout.module.css';
-import AppHeader from '../header/header';
-import { Outlet } from 'react-router-dom';
+import styles from './layout.module.css'
+import { Outlet } from "react-router-dom";
+import AppHeader from "../app-header/app-header";
 
 const Layout = () => {
+
   return (
     <>
-      <AppHeader />
+      <AppHeader/>
       <main className={styles.layout}>
-        <Outlet />
+        <Outlet/>
       </main>
     </>
-  );
+  )
 };
 
 export default Layout;

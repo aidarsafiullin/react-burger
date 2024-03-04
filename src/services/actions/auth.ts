@@ -6,10 +6,14 @@ import {
   updateUserRequest,
   pwdResetRequest,
   pwdSubmitRequest,
-  updateTokenRequest,
+  updateTokenRequest
 } from '../../utils/api';
 
-import { setCookie, deleteCookie, getCookie } from '../../utils/cookies';
+import {
+  setCookie,
+  deleteCookie,
+  getCookie
+} from '../../utils/cookies';
 
 import {
   REGISTER_REQUEST,
@@ -36,17 +40,11 @@ import {
   UPDATE_TOKEN_REQUEST,
   UPDATE_TOKEN_SUCCESS,
   UPDATE_TOKEN_FAILED,
-  SET_PASSWORD,
+  SET_PASSWORD
 } from '../constants/auth';
 
 import { AppDispatch } from '../types';
-import {
-  TForgotFormState,
-  TLoginFormState,
-  TResetFormState,
-  TUser,
-  TUserFormState,
-} from '../types/data';
+import { TForgotFormState, TLoginFormState, TResetFormState, TUser, TUserFormState } from '../types/data';
 
 export interface IRegisterRequest {
   readonly type: typeof REGISTER_REQUEST;
@@ -54,7 +52,7 @@ export interface IRegisterRequest {
 
 export interface IRegisterSuccess {
   readonly type: typeof REGISTER_SUCCESS;
-  readonly user: TUser;
+  readonly user: TUser
 }
 
 export interface IRegisterFailed {
@@ -67,7 +65,7 @@ export interface ILoginRequest {
 
 export interface ILoginSuccess {
   readonly type: typeof LOGIN_SUCCESS;
-  readonly user: TUser;
+  readonly user: TUser
 }
 
 export interface ILoginFailed {
@@ -92,7 +90,7 @@ export interface IGetUserRequest {
 
 export interface IGetUserSuccess {
   readonly type: typeof GET_USER_SUCCESS;
-  readonly user: TUser;
+  readonly user: TUser
 }
 
 export interface IGetUserUserFailed {
@@ -105,7 +103,7 @@ export interface IUpdateUserRequest {
 
 export interface IUpdateUserSuccess {
   readonly type: typeof UPDATE_USER_SUCCESS;
-  readonly user: TUser;
+  readonly user: TUser
 }
 
 export interface IUpdateUserFailed {
@@ -154,342 +152,345 @@ export interface ISetPassword {
 }
 
 export type TAuthActions =
-  | IRegisterRequest
-  | IRegisterSuccess
-  | IRegisterFailed
-  | ILoginRequest
-  | ILoginSuccess
-  | ILoginFailed
-  | ILogoutRequest
-  | ILogoutSuccess
-  | ILogoutFailed
-  | IGetUserRequest
-  | IGetUserSuccess
-  | IGetUserUserFailed
-  | IUpdateUserRequest
-  | IUpdateUserSuccess
-  | IUpdateUserFailed
-  | IUpdatePasswordRequest
-  | IUpdatePasswordSuccess
-  | IUpdatePasswordFailed
-  | ISubmitPasswordRequest
-  | ISubmitPasswordSuccess
-  | ISubmitPasswordFailed
-  | IUpdateTokenRequest
-  | IUpdateTokenSuccess
-  | IUpdateTokenFailed
-  | ISetPassword;
+| IRegisterRequest
+| IRegisterSuccess
+| IRegisterFailed
+| ILoginRequest
+| ILoginSuccess
+| ILoginFailed
+| ILogoutRequest
+| ILogoutSuccess
+| ILogoutFailed
+| IGetUserRequest
+| IGetUserSuccess
+| IGetUserUserFailed
+| IUpdateUserRequest
+| IUpdateUserSuccess
+| IUpdateUserFailed
+| IUpdatePasswordRequest
+| IUpdatePasswordSuccess
+| IUpdatePasswordFailed
+| ISubmitPasswordRequest
+| ISubmitPasswordSuccess
+| ISubmitPasswordFailed
+| IUpdateTokenRequest
+| IUpdateTokenSuccess
+| IUpdateTokenFailed
+| ISetPassword;
 
-export const registerUser = ({ name, email, password }: TUserFormState) => {
-  return function (dispatch: AppDispatch) {
+export const registerUser = ({name, email, password}: TUserFormState) => {
+  return function(dispatch: AppDispatch) {
     dispatch({
-      type: REGISTER_REQUEST,
+      type: REGISTER_REQUEST
     });
-    registerRequest({ name, email, password })
-      .then((res) => {
+    registerRequest({name, email, password})
+      .then(res => {
         if (res && res.success) {
-          setCookie('accessToken', res.accessToken.split('Bearer ')[1]);
-          setCookie('refreshToken', res.refreshToken);
+          setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+          setCookie("refreshToken", res.refreshToken);
           dispatch({
             type: REGISTER_SUCCESS,
-            user: res.user,
+            user: res.user
           });
           dispatch({
             type: SET_PASSWORD,
-            password: password,
+            password: password
           });
-        } else {
-          dispatch({
-            type: REGISTER_FAILED,
-          });
-        }
-      })
-      .catch((e) => {
+      } else {
         dispatch({
-          type: REGISTER_FAILED,
+          type: REGISTER_FAILED
         });
-        console.log(`Ошибка при регистрации пользователя: ${e}`);
+      }
+    })
+    .catch(e => {
+      dispatch({
+        type: REGISTER_FAILED
       });
-  };
-};
-
-export const loginUser = ({ email, password }: TLoginFormState) => {
-  return function (dispatch: AppDispatch) {
-    dispatch({
-      type: LOGIN_REQUEST,
+      console.log(`Ошибка при регистрации пользователя: ${e}`);
     });
-    loginRequest({ email, password })
-      .then((res) => {
+  };
+}
+
+export const loginUser = ({email, password}: TLoginFormState) => {
+  return function(dispatch: AppDispatch) {
+    dispatch({
+      type: LOGIN_REQUEST
+    });
+    loginRequest({email, password})
+      .then(res => {
         if (res && res.success) {
-          setCookie('accessToken', res.accessToken.split('Bearer ')[1]);
-          setCookie('refreshToken', res.refreshToken);
+          setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+          setCookie("refreshToken", res.refreshToken);
           dispatch({
             type: LOGIN_SUCCESS,
-            user: res.user,
+            user: res.user
           });
           dispatch({
             type: SET_PASSWORD,
-            password: password,
+            password: password
           });
-        } else {
-          dispatch({
-            type: LOGIN_FAILED,
-          });
-        }
-      })
-      .catch((e) => {
+      } else {
         dispatch({
-          type: LOGIN_FAILED,
+          type: LOGIN_FAILED
         });
-        console.log(`Ошибка при попытке входа: ${e}`);
+      }
+    })
+    .catch(e => {
+      dispatch({
+        type: LOGIN_FAILED
       });
+      console.log(`Ошибка при попытке входа: ${e}`);
+    });
   };
-};
+}
 
 export const logoutUser = (refreshToken: string) => {
-  return function (dispatch: AppDispatch) {
+  return function(dispatch: AppDispatch) {
     dispatch({
-      type: LOGOUT_REQUEST,
+      type: LOGOUT_REQUEST
     });
     logoutRequest(refreshToken)
-      .then((res) => {
+      .then(res => {
         if (res && res.success) {
-          deleteCookie('refreshToken');
-          deleteCookie('accessToken');
+          deleteCookie("refreshToken");
+          deleteCookie("accessToken");
           dispatch({
-            type: LOGOUT_SUCCESS,
+            type: LOGOUT_SUCCESS
           });
-        } else {
-          dispatch({
-            type: LOGOUT_FAILED,
-          });
-        }
-      })
-      .catch((e) => {
+      } else {
         dispatch({
-          type: LOGOUT_FAILED,
+          type: LOGOUT_FAILED
         });
-        console.log(`Ошибка при попытке выхода: ${e}`);
+      }
+    })
+    .catch(e => {
+      dispatch({
+        type: LOGOUT_FAILED
       });
+      console.log(`Ошибка при попытке выхода: ${e}`);
+    });
   };
-};
+}
 
 export const getUserInfo = () => {
-  return function (dispatch: AppDispatch) {
+  return function(dispatch: AppDispatch) {
     dispatch({
-      type: GET_USER_REQUEST,
+      type: GET_USER_REQUEST
     });
     getUserRequest()
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: GET_USER_SUCCESS,
-            user: res.user,
-          });
-        } else {
-          const refreshToken = getCookie('refreshToken')!;
-          updateTokenRequest(refreshToken)
-            .then((res) => {
-              if (res && res.success) {
-                setCookie('accessToken', res.accessToken.split('Bearer ')[1]);
-                setCookie('refreshToken', res.refreshToken);
-                dispatch({
-                  type: GET_USER_REQUEST,
-                });
-                getUserRequest()
-                  .then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
-                  .then((res) => {
-                    if (res && res.success) {
-                      dispatch({
-                        type: GET_USER_SUCCESS,
-                        user: res.user,
-                      });
-                    } else {
-                      dispatch({
-                        type: GET_USER_FAILED,
-                      });
-                    }
-                  })
-                  .catch((e) => {
-                    dispatch({
-                      type: GET_USER_FAILED,
-                    });
-                    console.log(`Ошибка при получении информации о пользователе: ${e}`);
-                  });
-              } else {
-                dispatch({
-                  type: GET_USER_FAILED,
-                });
-              }
-            })
-            .catch((e) => {
-              dispatch({
-                type: GET_USER_FAILED,
-              });
-              console.log(`Ошибка при обновлении токена: ${e}`);
-            });
-        }
-      })
-      .catch((e) => {
+    .then(res => res.json())
+    .then(res => {
+      if (res.success) {
         dispatch({
-          type: GET_USER_FAILED,
+          type: GET_USER_SUCCESS,
+          user: res.user
         });
-        console.log(`Ошибка при получении информации о пользователе: ${e}`);
+      } else {
+        const refreshToken = getCookie("refreshToken")!;
+        updateTokenRequest(refreshToken)
+          .then(res => {
+            if (res && res.success) {
+              setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+              setCookie("refreshToken", res.refreshToken);
+              dispatch({
+                type: GET_USER_REQUEST
+              });
+              getUserRequest()
+              .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+              .then(res => {
+                if (res && res.success) {
+                  dispatch({
+                    type: GET_USER_SUCCESS,
+                    user: res.user
+                  });
+                } else {
+                  dispatch({
+                    type: GET_USER_FAILED
+                  });
+                }
+              })
+              .catch(e => {
+                dispatch({
+                  type: GET_USER_FAILED
+                });
+                console.log(`Ошибка при получении информации о пользователе: ${e}`);
+              });
+            } else {
+              dispatch({
+                type: GET_USER_FAILED
+              });
+            }
+          })
+          .catch(e => {
+            dispatch({
+              type: GET_USER_FAILED
+            });
+            console.log(`Ошибка при обновлении токена: ${e}`);
+          });
+      }
+    })
+    .catch(e => {
+      dispatch({
+        type: GET_USER_FAILED
       });
+      console.log(`Ошибка при получении информации о пользователе: ${e}`);
+    });
   };
-};
+}
 
 export const updateUserInfo = ({ name, email, password }: TUserFormState) => {
-  return function (dispatch: AppDispatch) {
+  return function(dispatch: AppDispatch) {
     dispatch({
-      type: UPDATE_USER_REQUEST,
+      type: UPDATE_USER_REQUEST
     });
     updateUserRequest({ name, email, password })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: UPDATE_USER_SUCCESS,
-            user: res.user,
-          });
-          dispatch({
-            type: SET_PASSWORD,
-            password: password,
-          });
-        } else {
-          const refreshToken = getCookie('refreshToken')!;
-          updateTokenRequest(refreshToken)
-            .then((res) => {
-              if (res && res.success) {
-                setCookie('accessToken', res.accessToken.split('Bearer ')[1]);
-                setCookie('refreshToken', res.refreshToken);
-                dispatch({
-                  type: UPDATE_USER_REQUEST,
-                });
-                updateUserRequest({ name, email, password })
-                  .then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
-                  .then((res) => {
-                    if (res && res.success) {
-                      dispatch({
-                        type: UPDATE_USER_SUCCESS,
-                        user: res.user,
-                      });
-                      dispatch({
-                        type: SET_PASSWORD,
-                        password: password,
-                      });
-                    } else {
-                      dispatch({
-                        type: UPDATE_USER_FAILED,
-                      });
-                    }
-                  })
-                  .catch((e) => {
-                    dispatch({
-                      type: UPDATE_USER_FAILED,
-                    });
-                    console.log(`Ошибка при обновлении информации о пользователе: ${e}`);
-                  });
-              } else {
-                dispatch({
-                  type: UPDATE_USER_FAILED,
-                });
-              }
-            })
-            .catch((e) => {
-              dispatch({
-                type: UPDATE_USER_FAILED,
-              });
-              console.log(`Ошибка при обновлении токена: ${e}`);
-            });
-        }
-      })
-      .catch((e) => {
+    .then(res => res.json())
+    .then(res => {
+      if (res.success) {
         dispatch({
-          type: UPDATE_USER_FAILED,
+          type: UPDATE_USER_SUCCESS,
+          user: res.user
         });
-        console.log(`Ошибка при обновлении информации о пользователе: ${e}`);
+        dispatch({
+          type: SET_PASSWORD,
+          password: password
+        });
+      } else {
+        const refreshToken = getCookie("refreshToken")!;
+        updateTokenRequest(refreshToken)
+          .then(res => {
+            if (res && res.success) {
+              setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+              setCookie("refreshToken", res.refreshToken);
+              dispatch({
+                type: UPDATE_USER_REQUEST
+              });
+              updateUserRequest({ name, email, password })
+              .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+              .then(res => {
+                if (res && res.success) {
+                  dispatch({
+                    type: UPDATE_USER_SUCCESS,
+                    user: res.user
+                  });
+                  dispatch({
+                    type: SET_PASSWORD,
+                    password: password
+                  });
+                } else {
+                  dispatch({
+                    type: UPDATE_USER_FAILED
+                  });
+                }
+              })
+              .catch(e => {
+                dispatch({
+                  type: UPDATE_USER_FAILED
+                });
+                console.log(`Ошибка при обновлении информации о пользователе: ${e}`);
+              });
+            } else {
+              dispatch({
+                type: UPDATE_USER_FAILED
+              });
+            }
+          })
+          .catch(e => {
+            dispatch({
+              type: UPDATE_USER_FAILED
+            });
+            console.log(`Ошибка при обновлении токена: ${e}`);
+          });
+      }
+    })
+    .catch(e => {
+      dispatch({
+        type: UPDATE_USER_FAILED
       });
+      console.log(`Ошибка при обновлении информации о пользователе: ${e}`);
+    });
   };
-};
+}
 
 export const updatePassword = ({ email }: TForgotFormState) => {
-  return function (dispatch: AppDispatch) {
+  return function(dispatch: AppDispatch) {
     dispatch({
-      type: UPDATE_PWD_REQUEST,
+      type: UPDATE_PWD_REQUEST
     });
     pwdResetRequest({ email })
-      .then((res) => {
+      .then(res => {
         if (res && res.success) {
           dispatch({
             type: UPDATE_PWD_SUCCESS,
           });
-        } else {
-          dispatch({
-            type: UPDATE_PWD_FAILED,
-          });
-        }
-      })
-      .catch((e) => {
+
+      } else {
         dispatch({
-          type: UPDATE_PWD_FAILED,
+          type: UPDATE_PWD_FAILED
         });
-        console.log(`Ошибка при обновлении пароля: ${e}`);
+      }
+    })
+    .catch(e => {
+      dispatch({
+        type: UPDATE_PWD_FAILED
       });
+      console.log(`Ошибка при обновлении пароля: ${e}`);
+    });
   };
-};
+}
 
 export const submitPassword = ({ password, token }: TResetFormState) => {
-  return function (dispatch: AppDispatch) {
+  return function(dispatch: AppDispatch) {
     dispatch({
-      type: SUBMIT_PWD_REQUEST,
+      type: SUBMIT_PWD_REQUEST
     });
     pwdSubmitRequest({ password, token })
-      .then((res) => {
+      .then(res => {
         if (res && res.success) {
           dispatch({
             type: SUBMIT_PWD_SUCCESS,
           });
-        } else {
-          dispatch({
-            type: SUBMIT_PWD_FAILED,
-          });
-        }
-      })
-      .catch((e) => {
-        dispatch({
-          type: SUBMIT_PWD_FAILED,
-        });
-        console.log(`Ошибка при обновлении пароля: ${e}`);
-      });
-  };
-};
 
-export async function updateToken(dispatch: AppDispatch) {
-  dispatch({
-    type: UPDATE_TOKEN_REQUEST,
-  });
-  const refreshToken = getCookie('refreshToken')!;
-  await updateTokenRequest(refreshToken)
-    .then((res) => {
-      console.log(res);
-      if (res && res.success) {
-        setCookie('accessToken', res.accessToken.split('Bearer ')[1]);
-        setCookie('refreshToken', res.refreshToken);
-        dispatch({
-          type: UPDATE_TOKEN_SUCCESS,
-        });
       } else {
         dispatch({
-          type: UPDATE_TOKEN_FAILED,
+          type: SUBMIT_PWD_FAILED
         });
       }
     })
-    .catch((e) => {
+    .catch(e => {
       dispatch({
-        type: UPDATE_TOKEN_FAILED,
+        type: SUBMIT_PWD_FAILED
       });
-      console.log(`Ошибка при обновлении accessToken: ${e}`);
+      console.log(`Ошибка при обновлении пароля: ${e}`);
     });
+  };
+}
+
+export async function updateToken(dispatch: AppDispatch) {
+  dispatch({
+    type: UPDATE_TOKEN_REQUEST
+  });
+  const refreshToken = getCookie("refreshToken")!;
+  await updateTokenRequest(refreshToken)
+    .then(res => {
+      console.log(res);
+      if (res && res.success) {
+        setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+        setCookie("refreshToken", res.refreshToken);
+        dispatch({
+          type: UPDATE_TOKEN_SUCCESS,
+        });
+
+      } else {
+        dispatch({
+          type: UPDATE_TOKEN_FAILED
+        });
+      }
+    })
+  .catch(e => {
+    dispatch({
+      type: UPDATE_TOKEN_FAILED
+    });
+    console.log(`Ошибка при обновлении accessToken: ${e}`);
+  });
 }

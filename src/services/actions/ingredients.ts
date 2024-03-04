@@ -5,9 +5,9 @@ import {
   GET_INGREDIENTS_FAILED,
   INCREASE_COUNT,
   DECREASE_COUNT,
-  SET_COUNT,
+  SET_COUNT
 } from '../constants/ingredients';
-import { TIngredientInfo } from '../types/data';
+import { TIngredientInfo } from "../types/data";
 import { AppDispatch } from '../types';
 
 export interface IGetIngredientsRequest {
@@ -42,54 +42,54 @@ export interface ISetCount {
 }
 
 export type TIngredientsActions =
-  | IGetIngredientsRequest
-  | IGetIngredientsSuccess
-  | IGetIngredientsFailed
-  | IIncreaseCount
-  | IDecreaseCount
-  | ISetCount;
+| IGetIngredientsRequest
+| IGetIngredientsSuccess
+| IGetIngredientsFailed
+| IIncreaseCount
+| IDecreaseCount
+| ISetCount;
 
 export const getIngredients = () => {
-  return function (dispatch: AppDispatch) {
+  return function(dispatch: AppDispatch) {
     dispatch({
-      type: GET_INGREDIENTS_REQUEST,
+      type: GET_INGREDIENTS_REQUEST
     });
     getIngredientsRequest()
-      .then((res) => {
-        if (res && res.success) {
-          dispatch({
-            type: GET_INGREDIENTS_SUCCESS,
-            data: res.data,
-          });
-        } else {
-          dispatch({
-            type: GET_INGREDIENTS_FAILED,
-          });
-        }
-      })
-      .catch((e) => {
+    .then(res => {
+      if (res && res.success) {
         dispatch({
-          type: GET_INGREDIENTS_FAILED,
+          type: GET_INGREDIENTS_SUCCESS,
+          data: res.data
         });
-        console.log(`Ошибка при загрузке данных: ${e}`);
+      } else {
+        dispatch({
+          type: GET_INGREDIENTS_FAILED
+        });
+      }
+    })
+    .catch(e => {
+      dispatch({
+        type: GET_INGREDIENTS_FAILED
       });
-  };
+      console.log(`Ошибка при загрузке данных: ${e}`);
+    });
+  }
 };
 
 export const increaseCount = (id: string, count: number): IIncreaseCount => ({
   type: INCREASE_COUNT,
   id: id,
-  count: count,
+  count: count
 });
 
 export const decreaseCount = (id: string, count: number): IDecreaseCount => ({
   type: DECREASE_COUNT,
   id: id,
-  count: count,
+  count: count
 });
 
 export const setCount = (id: string, count: number): ISetCount => ({
   type: SET_COUNT,
   id: id,
-  count: count,
+  count: count
 });
