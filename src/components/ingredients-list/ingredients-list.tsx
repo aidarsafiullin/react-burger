@@ -4,17 +4,21 @@ import Ingredient from '../ingredient/ingredient';
 import { TIngredientData } from '../../services/types/data';
 
 type TIngredientsList = {
-  title: string,
-  data: TIngredientData[],
-  id: string,
-  refHeader: Ref<HTMLHeadingElement>
-}
+  title: string;
+  data: TIngredientData[];
+  id: string;
+  refHeader: Ref<HTMLHeadingElement>;
+};
 
-const IngredientsList: FC<TIngredientsList> = ({title, data, id, refHeader}) => (
+const IngredientsList: FC<TIngredientsList> = ({ title, data, id, refHeader }) => (
   <div className={`pt-10`} id={id}>
-    <h2 className={`text text_type_main-medium`}  ref={refHeader}>{title}</h2>
+    <h2 className={`text text_type_main-medium`} ref={refHeader}>
+      {title}
+    </h2>
     <ul className={`${styles.grid} pt-6 pl-4 pr-4`}>
-      { data.map(item => (<Ingredient data={item} key={item.info._id}/>))}
+      {data.map((item) => (
+        <Ingredient data={item} key={item.info._id} />
+      ))}
     </ul>
   </div>
 );

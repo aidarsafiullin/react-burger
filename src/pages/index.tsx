@@ -10,7 +10,8 @@ import { OrdersPage } from './orders';
 import { FeedPage } from './feed';
 import { OrderPage } from './order';
 
-export { ConstructorPage,
+export {
+  ConstructorPage,
   ProfilePage,
   LoginPage,
   RegisterPage,

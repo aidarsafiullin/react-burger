@@ -21,9 +21,9 @@
   grid-template-rows: repeat(3, minmax(min-content, max-content));
   gap: 0 36px;
   grid-template-areas:
-    "done pending"
-    "overall overall"
-    "today today";
+    'done pending'
+    'overall overall'
+    'today today';
 }
 .done {
   grid-area: done;
@@ -58,7 +58,8 @@
 }
 
 .number {
-  text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+  text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25),
+    0px 4px 32px rgba(51, 51, 255, 0.5);
 }
 
 .placeholder {

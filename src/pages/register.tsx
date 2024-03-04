@@ -1,21 +1,25 @@
 import styles from './form.module.css';
 import { Link } from 'react-router-dom';
 import { useDispatch } from '../hooks';
-import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  Input,
+  EmailInput,
+  PasswordInput,
+  Button,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import { registerUser } from '../services/actions/auth';
 import { useForm } from '../hooks/useForm';
 import { SyntheticEvent } from 'react';
 import { TUserFormState } from '../services/types/data';
 
 export const RegisterPage = () => {
-
   const initialFormState: TUserFormState = {
     name: '',
     email: '',
     password: '',
   };
 
-  const {values, handleChange} = useForm<TUserFormState>(initialFormState);
+  const { values, handleChange } = useForm<TUserFormState>(initialFormState);
 
   const dispatch = useDispatch();
 
@@ -23,13 +27,11 @@ export const RegisterPage = () => {
     e.preventDefault();
 
     dispatch(registerUser(values));
-  }
+  };
 
   return (
     <form className={styles.form} onSubmit={submitRegistration}>
-      <h1 className="text text_type_main-medium text_color_primary mb-6">
-        Регистрация
-      </h1>
+      <h1 className="text text_type_main-medium text_color_primary mb-6">Регистрация</h1>
       <Input
         value={values.name}
         name="name"
@@ -38,12 +40,7 @@ export const RegisterPage = () => {
         onChange={handleChange}
         extraClass="mb-6"
       />
-      <EmailInput
-        value={values.email}
-        name="email"
-        onChange={handleChange}
-        extraClass="mb-6"
-      />
+      <EmailInput value={values.email} name="email" onChange={handleChange} extraClass="mb-6" />
       <PasswordInput
         value={values.password}
         name="password"
@@ -60,5 +57,5 @@ export const RegisterPage = () => {
         </Link>
       </p>
     </form>
-  )
-}
+  );
+};

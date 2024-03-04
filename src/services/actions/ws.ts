@@ -29,16 +29,16 @@ export interface IWsGetMessage {
 }
 
 export type TWsActions =
-| IWsConnectionStart
-| IWsConnectionSuccess
-| IWsConnectionError
-| IWsConnectionClose
-| IWsGetMessage;
+  | IWsConnectionStart
+  | IWsConnectionSuccess
+  | IWsConnectionError
+  | IWsConnectionClose
+  | IWsGetMessage;
 
 export const wsConnect = (): IWsConnectionStart => ({
-  type: WS_CONNECTION_START
-})
+  type: WS_CONNECTION_START,
+});
 
 export const wsClose = (): IWsConnectionClose => ({
-  type: WS_CONNECTION_CLOSED
-})
+  type: WS_CONNECTION_CLOSED,
+});

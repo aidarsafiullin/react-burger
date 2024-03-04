@@ -3,22 +3,19 @@ import PropTypes from 'prop-types';
 import { ReactNode, FC } from 'react';
 
 type TTwoColumns = {
-  children: ReactNode,
-}
+  children: ReactNode;
+};
 
 const TwoColumns: FC<TTwoColumns> = ({ children }) => {
-
   return (
     <>
-      <main className={styles.layout}>
-        {children}
-      </main>
+      <main className={styles.layout}>{children}</main>
     </>
-  )
+  );
 };
 
 TwoColumns.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default TwoColumns;

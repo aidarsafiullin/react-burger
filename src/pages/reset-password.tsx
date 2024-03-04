@@ -9,43 +9,39 @@ import { useForm } from '../hooks/useForm';
 import { TResetFormState } from '../services/types/data';
 
 export const ResetPasswordPage = () => {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const initialFormState: TResetFormState = {
     password: '',
     token: '',
-  }
+  };
 
-  const {values, handleChange} = useForm<TResetFormState>(initialFormState);
+  const { values, handleChange } = useForm<TResetFormState>(initialFormState);
   const pwdResetRequested = useSelector(getPwdResetRequested);
   const pwdSubmitSuccess = useSelector(getPwdSubmitSuccess);
 
-  useEffect(()=> {
+  useEffect(() => {
     if (!pwdResetRequested) {
-      navigate("/forgot-password");
+      navigate('/forgot-password');
     }
-
   }, [navigate, pwdResetRequested]);
 
   const handlePasswordSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
 
     dispatch(submitPassword(values));
-  }
+  };
 
   useEffect(() => {
     if (pwdSubmitSuccess) {
-      navigate("/login");
+      navigate('/login');
     }
-  }, [navigate, pwdSubmitSuccess])
+  }, [navigate, pwdSubmitSuccess]);
 
   return (
     <form onSubmit={handlePasswordSubmit} className={styles.form}>
-      <h1 className="text text_type_main-medium mb-6">
-        Восстановление пароля
-      </h1>
+      <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
       <PasswordInput
         value={values.password}
         name="password"
@@ -71,6 +67,5 @@ export const ResetPasswordPage = () => {
         </Link>
       </p>
     </form>
-  )
+  );
 };
-

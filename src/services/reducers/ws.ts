@@ -7,7 +7,7 @@ import {
 import { TWsActions } from '../actions/ws';
 import { TWsState } from '../types/state';
 
-const initialState: TWsState  = {
+const initialState: TWsState = {
   wsConnected: false,
   orders: [],
   total: null,
@@ -19,7 +19,7 @@ export const wsReducer = (state = initialState, action: TWsActions) => {
     case WS_CONNECTION_SUCCESS:
       return {
         ...state,
-        wsConnected: true
+        wsConnected: true,
       };
 
     case WS_CONNECTION_ERROR:

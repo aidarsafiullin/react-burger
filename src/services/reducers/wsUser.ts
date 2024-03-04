@@ -2,10 +2,10 @@ import {
   WS_USER_CONNECTION_CLOSED,
   WS_USER_CONNECTION_ERROR,
   WS_USER_CONNECTION_SUCCESS,
-  WS_USER_GET_MESSAGE
-} from "../constants/wsUser";
+  WS_USER_GET_MESSAGE,
+} from '../constants/wsUser';
 import { TWsUserActions } from '../actions/wsUser';
-import { TWsState } from "../types/state";
+import { TWsState } from '../types/state';
 
 const initialState: TWsState = {
   wsConnected: false,
@@ -19,7 +19,7 @@ export const wsUserReducer = (state = initialState, action: TWsUserActions) => {
     case WS_USER_CONNECTION_SUCCESS:
       return {
         ...state,
-        wsConnected: true
+        wsConnected: true,
       };
 
     case WS_USER_CONNECTION_ERROR:

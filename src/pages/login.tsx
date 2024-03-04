@@ -1,20 +1,23 @@
 import styles from './form.module.css';
 import { Link } from 'react-router-dom';
 import { useDispatch } from '../hooks';
-import { EmailInput, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  EmailInput,
+  PasswordInput,
+  Button,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import { loginUser } from '../services/actions/auth';
 import { useForm } from '../hooks/useForm';
 import { SyntheticEvent } from 'react';
 import { TLoginFormState } from '../services/types/data';
 
 export const LoginPage = () => {
-
   const initialFormState: TLoginFormState = {
     email: '',
     password: '',
-  }
+  };
 
-  const {values, handleChange} = useForm<TLoginFormState>(initialFormState);
+  const { values, handleChange } = useForm<TLoginFormState>(initialFormState);
 
   const dispatch = useDispatch();
 
@@ -22,19 +25,12 @@ export const LoginPage = () => {
     e.preventDefault();
 
     dispatch(loginUser(values));
-  }
+  };
 
   return (
     <form onSubmit={submitLogin} className={styles.form}>
-      <h1 className="text text_type_main-medium text_color_primary mb-6">
-        Вход
-      </h1>
-      <EmailInput
-        value={values.email}
-        name="email"
-        onChange={handleChange}
-        extraClass="mb-6"
-      />
+      <h1 className="text text_type_main-medium text_color_primary mb-6">Вход</h1>
+      <EmailInput value={values.email} name="email" onChange={handleChange} extraClass="mb-6" />
       <PasswordInput
         value={values.password}
         name="password"
@@ -57,5 +53,5 @@ export const LoginPage = () => {
         </Link>
       </p>
     </form>
-  )
-}
+  );
+};

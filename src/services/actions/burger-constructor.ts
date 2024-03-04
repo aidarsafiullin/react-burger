@@ -3,9 +3,9 @@ import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
   RESET_INGREDIENTS,
-  MOVE_INGREDIENT
+  MOVE_INGREDIENT,
 } from '../constants/burger-constructor';
-import { TIngredientFilling, TIngredientInfo } from "../types/data";
+import { TIngredientFilling, TIngredientInfo } from '../types/data';
 
 export interface IAddIngredient {
   readonly type: typeof ADD_INGREDIENT;
@@ -27,14 +27,14 @@ export interface IMoveIngredient {
 }
 
 export type TConstructorActions =
-| IAddIngredient
-| IDeleteIngredient
-| IResetIngredient
-| IMoveIngredient;
+  | IAddIngredient
+  | IDeleteIngredient
+  | IResetIngredient
+  | IMoveIngredient;
 
 export const addIngredient = (ingredient: TIngredientInfo) => ({
   type: ADD_INGREDIENT,
-  data: {info: ingredient, id: uuid()}
+  data: { info: ingredient, id: uuid() },
 });
 
 export const deleteIngredient = (id: string) => ({
@@ -46,12 +46,15 @@ export const resetOrderIngredients = () => ({
   type: RESET_INGREDIENTS,
 });
 
-export const moveIngredient = (array: TIngredientFilling[], dragIndex: number, dropIndex: number) => {
-
+export const moveIngredient = (
+  array: TIngredientFilling[],
+  dragIndex: number,
+  dropIndex: number,
+) => {
   [array[dragIndex], array[dropIndex]] = [array[dropIndex], array[dragIndex]];
 
   return {
     type: MOVE_INGREDIENT,
     array: [...array],
-  }
+  };
 };

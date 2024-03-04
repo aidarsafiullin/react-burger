@@ -1,4 +1,11 @@
-import { TStoreAuth, TStoreConstructor, TStoreIngredients, TStoreOrder, TStoreWs, TStoreWsUser } from "../services/types/state";
+import {
+  TStoreAuth,
+  TStoreConstructor,
+  TStoreIngredients,
+  TStoreOrder,
+  TStoreWs,
+  TStoreWsUser,
+} from '../services/types/state';
 
 export const getAllIngredients = (store: TStoreIngredients) => store.ingredients;
 export const getConstructor = (store: TStoreConstructor) => store.burgerConstructor;
