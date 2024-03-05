@@ -1,17 +1,19 @@
-export enum Url {
-  Ingredients = 'https://norma.nomoreparties.space/api/ingredients',
-  Order = 'https://norma.nomoreparties.space/api/orders',
-  Login = 'https://norma.nomoreparties.space/api/auth/login',
-  Register = 'https://norma.nomoreparties.space/api/auth/register',
-  Logout = 'https://norma.nomoreparties.space/api/auth/logout',
-  Token = 'https://norma.nomoreparties.space/api/auth/token',
-  Reset = 'https://norma.nomoreparties.space/api/password-reset',
-  User = 'https://norma.nomoreparties.space/api/auth/user',
-  PwdReset = 'https://norma.nomoreparties.space/api/password-reset',
-  PwdSubmit = 'https://norma.nomoreparties.space/api/password-reset/reset',
-}
+const BASE_URL = 'https://norma.nomoreparties.space/api';
 
-export enum UrlWS {
-  All = 'wss://norma.nomoreparties.space/orders/all',
-  User = 'wss://norma.nomoreparties.space/orders',
-}
+export const Url = {
+  Ingredients: `${BASE_URL}/ingredients`,
+  Order: `${BASE_URL}/orders`,
+  Login: `${BASE_URL}/auth/login`,
+  Register: `${BASE_URL}/auth/register`,
+  Logout: `${BASE_URL}/auth/logout`,
+  Token: `${BASE_URL}/auth/token`,
+  Reset: `${BASE_URL}/password-reset`,
+  User: `${BASE_URL}/auth/user`,
+  PwdReset: `${BASE_URL}/password-reset`,
+  PwdSubmit: `${BASE_URL}/password-reset/reset`,
+};
+
+export const UrlWS = {
+  All: 'wss://norma.nomoreparties.space/orders/all',
+  User: 'wss://norma.nomoreparties.space/orders',
+};
