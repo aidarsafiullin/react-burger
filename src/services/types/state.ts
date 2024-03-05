@@ -1,4 +1,4 @@
-import { TIngredientData, TIngredientFilling, TIngredientInfo, TUser } from './data';
+import { TIngredientData, TIngredientFilling, TIngredientInfo, TOrderData, TUser } from './data';
 
 export type TIngredientsState = {
   ingredients: Array<TIngredientData>;
@@ -30,6 +30,13 @@ export type TAuthState = {
   pwdSubmitSuccess: boolean;
 };
 
+export type TWsState = {
+  wsConnected: boolean;
+  orders: TOrderData[];
+  total: number | null;
+  totalToday: number | null;
+};
+
 export type TStoreIngredients = {
   ingredients: TIngredientsState;
 };
@@ -44,4 +51,12 @@ export type TStoreOrder = {
 
 export type TStoreAuth = {
   auth: TAuthState;
+};
+
+export type TStoreWs = {
+  wsAll: TWsState;
+};
+
+export type TStoreWsUser = {
+  wsUser: TWsState;
 };

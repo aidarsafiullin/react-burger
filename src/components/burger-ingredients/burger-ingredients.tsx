@@ -1,79 +1,70 @@
-import React, { useState, useRef, useEffect, createRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSelector } from '../../hooks';
 import styles from './burger-ingredients.module.css';
-import { IngredientTypes } from '../../utils/constants';
-import IngredientsFilter from './ingredients-filter/ingredients-filter';
-import IngredientsMenu from './ingredients-menu/ingredients-menu';
-import { fetchAllIngredients } from '../../services/selectors';
-
-type IngredientType = keyof typeof IngredientTypes;
+import IngredientsTab from '../ingredients-tab/ingredients-tab';
+import IngredientsList from '../ingredients-list/ingredients-list';
+import { getAllIngredients } from '../../utils/state';
 
 type TdistanceAll = {
   [key: string]: number;
 };
 
-const BurgerIngredients: React.FC = () => {
-  const { ingredients } = useSelector(fetchAllIngredients);
+const BurgerIngredients = () => {
+  const { ingredients } = useSelector(getAllIngredients);
+  const buns = ingredients.filter((item) => item.info.type === 'bun');
+  const sauces = ingredients.filter((item) => item.info.type === 'sauce');
+  const mains = ingredients.filter((item) => item.info.type === 'main');
 
-  const ingredientTypeKeys = Object.keys(IngredientTypes) as IngredientType[];
-  const [activeIngredientTypeIndex, setActiveIngredientTypeIndex] = useState<number>(0);
-  const [filterBottomPosition, setFilterBottomPosition] = useState<number | undefined>(undefined);
-  const filterContainerRef = useRef<HTMLDivElement>(null);
+  // Navigation through tabs
+  const [currentTab, setCurrentTab] = useState<string>('buns');
+  const [scrollEdge, setScrollEdge] = useState<number>(0);
 
-  const ingredientTypeRefs = Array(ingredientTypeKeys.length)
-    .fill(null)
-    .map(() => createRef<HTMLDivElement>());
+  const handleTabClick = (id: string) => {
+    setCurrentTab(id);
+    document.querySelector(`#${id}`)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const refTab = useRef<HTMLDivElement>(null);
+  const refBunsHeader = useRef<HTMLHeadingElement>(null);
+  const refSaucesHeader = useRef<HTMLHeadingElement>(null);
+  const refMainsHeader = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    if (filterContainerRef.current) {
-      setFilterBottomPosition(filterContainerRef.current.getBoundingClientRect().bottom);
-    }
+    refTab && setScrollEdge(refTab.current!.getBoundingClientRect().bottom);
   }, []);
 
-  const handleScroll = () => {
-    if (filterBottomPosition !== undefined) {
-      const closestIngredientTypeIndex = ingredientTypeRefs.reduce(
-        (minDistIndex, typeRef, index) => {
-          if (typeRef.current) {
-            const distance = Math.abs(
-              filterBottomPosition - typeRef.current.getBoundingClientRect().top,
-            );
+  const handleTabScroll = () => {
+    // for the perfect precision can use half of header's in calculations
+    let bunsHeaderDist = Math.abs(scrollEdge - refBunsHeader.current!.getBoundingClientRect().top);
+    let saucesHeaderDist = Math.abs(
+      scrollEdge - refSaucesHeader.current!.getBoundingClientRect().top,
+    );
+    let mainsHeaderDist = Math.abs(
+      scrollEdge - refMainsHeader.current!.getBoundingClientRect().top,
+    );
 
-            if (minDistIndex === null || distance < minDistIndex.distance) {
-              return { index, distance };
-            } else {
-              return minDistIndex;
-            }
-          } else {
-            return minDistIndex;
-          }
-        },
-        null as { index: number; distance: number } | null,
-      );
+    const distancesAll: TdistanceAll = {
+      buns: bunsHeaderDist,
+      sauces: saucesHeaderDist,
+      mains: mainsHeaderDist,
+    };
 
-      if (closestIngredientTypeIndex) {
-        setActiveIngredientTypeIndex(closestIngredientTypeIndex.index);
-      }
-    }
+    const closestPos = Math.min(bunsHeaderDist, saucesHeaderDist, mainsHeaderDist);
+    const activeTabId =
+      Object.keys(distancesAll).find((key) => distancesAll[key] === closestPos) || 'bun';
+
+    setCurrentTab(activeTabId);
   };
 
   return (
-    <section className={styles.section}>
-      <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
-      <IngredientsFilter
-        filter={ingredientTypeKeys}
-        filterRef={filterContainerRef}
-        IngredientTypes={IngredientTypes}
-        activeIngredientType={activeIngredientTypeIndex}
-        setActiveIngredientType={setActiveIngredientTypeIndex}
-      />
-      <IngredientsMenu
-        ingredients={ingredients}
-        filter={ingredientTypeKeys}
-        ingredientTypeRefs={ingredientTypeRefs}
-        onScroll={handleScroll}
-        IngredientTypes={IngredientTypes}
-      />
+    <section className={`${styles.list} pl-5 pr-5`}>
+      <h1 className={`pt-10 text text_type_main-large`}>Соберите бургер</h1>
+      <IngredientsTab setCurrent={handleTabClick} currentTab={currentTab} refTab={refTab} />
+      <div className={`${styles.list__scroll} custom-scroll`} onScroll={handleTabScroll}>
+        <IngredientsList title={'Булки'} data={buns} id={'buns'} refHeader={refBunsHeader} />
+        <IngredientsList title={'Соусы'} data={sauces} id={'sauces'} refHeader={refSaucesHeader} />
+        <IngredientsList title={'Начинки'} data={mains} id={'mains'} refHeader={refMainsHeader} />
+      </div>
     </section>
   );
 };

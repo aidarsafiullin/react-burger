@@ -29,13 +29,17 @@ export interface ICloseOrder {
 
 export type TOrderActions = IGetOrderRequest | IGetOrderSuccess | IGetOrderFailed | ICloseOrder;
 
+const checkResponse = (res: Response) => {
+  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+};
+
 export const checkoutOrder = (ingredients: TOrderCheckout) => {
   return function (dispatch: AppDispatch) {
     dispatch({
       type: ORDER_CHECKOUT_REQUEST,
     });
     placeOrderRequest(ingredients)
-      .then((res) => res.json())
+      .then((res) => checkResponse(res))
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -53,7 +57,7 @@ export const checkoutOrder = (ingredients: TOrderCheckout) => {
                   type: ORDER_CHECKOUT_REQUEST,
                 });
                 placeOrderRequest(ingredients)
-                  .then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
+                  .then((res) => checkResponse(res))
                   .then((res) => {
                     if (res && res.success) {
                       dispatch({

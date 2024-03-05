@@ -1,7 +1,10 @@
-.section {
-  width: 600px;
+.list {
+  max-height: calc(100vh - 88px - 40px);
+  display: flex;
+  flex-direction: column;
 }
 
-.filter {
-  display: flex;
+.list__scroll {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }

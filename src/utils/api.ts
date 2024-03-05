@@ -15,7 +15,7 @@ type TResponse<T> = {
   success: boolean;
 } & T;
 
-const checkResponse = <T>(res: Response) => {
+export const checkResponse = <T>(res: Response) => {
   return res.ok
     ? res.json().then((data) => data as TResponse<T>)
     : Promise.reject(`Ошибка: ${res.status}`);

@@ -1,26 +1,22 @@
 import { useMemo } from 'react';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
+import Modal from '../modal/modal';
+import styles from './burger-constructor.module.css';
+import OrderConfirm from '../order-confirm/order-confirm';
+import ConstructorIngredient from '../constructor-ingredient/constructor-ingredient';
+import TotalPrice from '../total-price/total-price';
 import { useDispatch, useSelector } from '../../hooks';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../modal/modal';
-import Checkout from '../checkout/checkout';
-import OrderDetails from '../modal/order-details/order-details';
-import ConstructorIngredient from './constructor-content/constructor-content';
 import { addIngredient, resetOrderIngredients } from '../../services/actions/burger-constructor';
 import { resetOrderId } from '../../services/actions/order';
 import { increaseCount, setCount } from '../../services/actions/ingredients';
-import {
-  fetchAllIngredients,
-  fetchBurgerConstructor,
-  fetchOrderDetails,
-} from '../../services/selectors';
-import styles from './burger-constructor.module.css';
-
+import { getAllIngredients } from '../../utils/state';
+import { getConstructor, getOrder } from '../../utils/state';
 import { TIngredientData } from '../../services/types/data';
 
 const BurgerConstructor = () => {
-  const { bun: selectedBun, fillings: selectedFillings } = useSelector(fetchBurgerConstructor);
-  const { ingredients: allIngredients } = useSelector(fetchAllIngredients);
+  const { fillings, bun } = useSelector(getConstructor);
+  const { ingredients } = useSelector(getAllIngredients);
 
   const dispatch = useDispatch();
 
@@ -35,7 +31,7 @@ const BurgerConstructor = () => {
         dispatch(increaseCount(ingredient.info._id, 1));
       } else {
         dispatch(setCount(ingredient.info._id, 2));
-        allIngredients.forEach(
+        ingredients.forEach(
           (item) =>
             item.info.type === 'bun' &&
             item.info._id !== ingredient.info._id &&
@@ -45,84 +41,75 @@ const BurgerConstructor = () => {
     },
   });
 
-  const { orderId, openModal, orderFailed } = useSelector(fetchOrderDetails);
+  // orderCheckout
+  const { openModal, orderFailed } = useSelector(getOrder);
 
   const closeOrderModal = (orderFailed: boolean) => {
     dispatch(resetOrderId());
-
     if (!orderFailed) {
       dispatch(resetOrderIngredients());
-
-      allIngredients
-        .filter((item: { qty: number }) => item.qty > 0)
-        .forEach((item: { info: { _id: string } }) => dispatch(setCount(item.info._id, 0)));
+      ingredients
+        .filter((item) => item.qty > 0)
+        .forEach((item) => dispatch(setCount(item.info._id, 0)));
     }
   };
 
-  const totalPrice = useMemo(() => {
-    const fillingsPrice = selectedFillings.reduce(
-      (price, filling) => price + filling.info.price,
-      0,
-    );
-    const bunPrice = selectedBun ? selectedBun.info.price * 2 : 0;
-
-    return fillingsPrice + bunPrice;
-  }, [selectedBun, selectedFillings]);
+  let totalPrice = useMemo(
+    () =>
+      fillings.reduce((price, item) => (price += item.info.price), bun ? bun.info.price * 2 : 0),
+    [bun, fillings],
+  );
 
   return (
     <>
       <section className={`${styles.section} pl-5 pr-5`}>
         <div className={`${styles.list} mt-25 mb-13`} ref={dropTarget}>
-          {!selectedBun && !selectedFillings.length && (
+          {!bun && !fillings.length && (
             <h2 className={`${styles.hint} text text_type_main-medium text_color_inactive`}>
-              Выберите булку
+              выберите булку
             </h2>
           )}
-
-          {selectedBun && (
+          {bun && (
             <div className={`ml-8 pl-4 pr-4 mr-3`}>
               <ConstructorElement
                 type="top"
                 isLocked={true}
-                text={`${selectedBun.info.name} (верх)`}
-                price={selectedBun.info.price}
-                thumbnail={selectedBun.info.image}
+                text={`${bun.info.name} (верх)`}
+                price={bun.info.price}
+                thumbnail={bun.info.image}
               />
             </div>
           )}
-
-          {selectedFillings.length ? (
+          {fillings.length ? (
             <ul className={`${styles.list__scroll} custom-scroll`}>
-              {selectedFillings.map((filling, index) => (
-                <ConstructorIngredient data={filling} key={filling.id} index={index} />
+              {fillings.map((item, index) => (
+                <ConstructorIngredient data={item} key={item.id} index={index} />
               ))}
             </ul>
           ) : (
-            selectedBun && (
+            bun && (
               <h2 className={`${styles.hint} text text_type_main-medium text_color_inactive`}>
-                Выберите начинки и соусы
+                выберите начинки и соусы
               </h2>
             )
           )}
-
-          {selectedBun && (
+          {bun && (
             <div className={`ml-8 pl-4 pr-4`}>
               <ConstructorElement
                 type="bottom"
                 isLocked={true}
-                text={`${selectedBun.info.name} (верх)`}
-                price={selectedBun.info.price}
-                thumbnail={selectedBun.info.image}
+                text={`${bun.info.name} (верх)`}
+                price={bun.info.price}
+                thumbnail={bun.info.image}
               />
             </div>
           )}
         </div>
-
-        <Checkout totalPrice={totalPrice || 0} />
+        <TotalPrice price={totalPrice ? totalPrice : 0} />
       </section>
       {openModal && (
-        <Modal closeModal={() => closeOrderModal(orderFailed)}>
-          <OrderDetails />
+        <Modal onClose={() => closeOrderModal(orderFailed)}>
+          <OrderConfirm />
         </Modal>
       )}
     </>

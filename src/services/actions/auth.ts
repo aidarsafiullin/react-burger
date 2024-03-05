@@ -9,6 +9,8 @@ import {
   updateTokenRequest,
 } from '../../utils/api';
 
+import { checkResponse } from '../../utils/api';
+
 import { setCookie, deleteCookie, getCookie } from '../../utils/cookies';
 
 import {
@@ -40,6 +42,7 @@ import {
 } from '../constants/auth';
 
 import { AppDispatch } from '../types';
+import { TUserResponce, TDefaultResponce } from '../types/auth';
 import {
   TForgotFormState,
   TLoginFormState,
@@ -280,7 +283,7 @@ export const getUserInfo = () => {
       type: GET_USER_REQUEST,
     });
     getUserRequest()
-      .then((res) => res.json())
+      .then((res) => checkResponse<TUserResponce>(res))
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -346,7 +349,7 @@ export const updateUserInfo = ({ name, email, password }: TUserFormState) => {
       type: UPDATE_USER_REQUEST,
     });
     updateUserRequest({ name, email, password })
-      .then((res) => res.json())
+      .then((res) => checkResponse<TUserResponce>(res))
       .then((res) => {
         if (res.success) {
           dispatch({

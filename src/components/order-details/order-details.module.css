@@ -1,0 +1,41 @@
+.container {
+  margin: 0 auto;
+  width: 640px;
+}
+
+.scroll {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  max-height: 312px;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ingredient:last-of-type {
+  margin-bottom: 0;
+}
+
+.name {
+  flex-grow: 1;
+}
+
+.price {
+  display: flex;
+  justify-self: flex-end;
+  white-space: pre;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.error {
+  text-align: center;
+}

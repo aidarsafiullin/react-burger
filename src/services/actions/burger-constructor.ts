@@ -51,15 +51,10 @@ export const moveIngredient = (
   dragIndex: number,
   dropIndex: number,
 ) => {
-  const newArray = [...array]; // создаем копию массива
-
-  // Обмениваем элементы в новом массиве
-  const draggedItem = newArray[dragIndex];
-  newArray[dragIndex] = newArray[dropIndex];
-  newArray[dropIndex] = draggedItem;
+  [array[dragIndex], array[dropIndex]] = [array[dropIndex], array[dragIndex]];
 
   return {
     type: MOVE_INGREDIENT,
-    array: newArray,
+    array: [...array],
   };
 };

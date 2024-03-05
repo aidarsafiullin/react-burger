@@ -1,0 +1,20 @@
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #131316;
+}
+
+.item:hover {
+  cursor: pointer;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  min-height: 48px;
+}
