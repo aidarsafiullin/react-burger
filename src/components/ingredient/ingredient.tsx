@@ -33,6 +33,7 @@ const Ingredient: FC<TIngredient> = ({ data }) => {
   return (
     <li
       className={styles.item}
+      data-testid="ingredient_card"
       ref={dragRef}
       style={{ ...styles, opacity }}
       onClick={() => handleIngredientClick(info)}>

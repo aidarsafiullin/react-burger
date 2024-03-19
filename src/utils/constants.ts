@@ -17,3 +17,5 @@ export const UrlWS = {
   All: 'wss://norma.nomoreparties.space/orders/all',
   User: 'wss://norma.nomoreparties.space/orders',
 };
+
+export const testURL = 'http://localhost:3000/#/';
