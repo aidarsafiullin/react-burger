@@ -1,7 +1,7 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 /* eslint-disable cypress/unsafe-to-chain-command */
 
-import { testURL } from '../../src/utils/constants';
+import { testURL, ingredintCard } from '../../src/utils/constants';
 import { email, password } from '../../src/utils/auth-test-data';
 
 describe('make order', function () {
@@ -16,14 +16,14 @@ describe('make order', function () {
     cy.get('[type=password]').type(password);
     cy.get('button').click();
 
-    cy.get('[data-testid=ingredient_card]').first().trigger('dragstart').trigger('dragleave');
+    cy.get(`[${ingredintCard}]`).first().trigger('dragstart').trigger('dragleave');
     cy.get('[data-testid=constructor_drag_destination]')
       .trigger('dragenter')
       .trigger('dragover')
       .trigger('drop')
       .trigger('dragend');
 
-    cy.get('[data-testid=ingredient_card]').eq(3).trigger('dragstart').trigger('dragleave');
+    cy.get(`[${ingredintCard}]`).eq(3).trigger('dragstart').trigger('dragleave');
     cy.get('[data-testid=constructor_drag_destination]')
       .trigger('dragenter')
       .trigger('dragover')
@@ -44,7 +44,7 @@ describe('ingredient modal', function () {
   });
 
   it('should open and close ingredient modal', () => {
-    cy.get('[data-testid=ingredient_card]').first().click();
+    cy.get(`[${ingredintCard}]`).first().click();
     cy.get('[data-testid=modal_header]').click();
   });
 });

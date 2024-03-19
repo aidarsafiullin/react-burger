@@ -19,3 +19,5 @@ export const UrlWS = {
 };
 
 export const testURL = 'http://localhost:3000/#/';
+
+export const ingredintCard = 'data-testid=ingredient_card';
