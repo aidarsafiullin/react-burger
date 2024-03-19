@@ -7,7 +7,7 @@ import {
 import { TWsUserActions } from '../actions/wsUser';
 import { TWsState } from '../types/state';
 
-const initialState: TWsState = {
+export const initialState: TWsState = {
   wsConnected: false,
   orders: [],
   total: null,

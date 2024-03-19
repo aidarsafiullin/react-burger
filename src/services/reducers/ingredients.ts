@@ -10,7 +10,7 @@ import { TIngredientsActions } from '../actions/ingredients';
 import { TIngredientInfo } from '../types/data';
 import { TIngredientsState } from '../types/state';
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,

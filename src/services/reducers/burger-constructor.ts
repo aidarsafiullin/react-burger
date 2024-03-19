@@ -7,7 +7,7 @@ import {
 import { TConstructorActions } from '../actions/burger-constructor';
 import { TConstructorState } from '../types/state';
 
-const initialState: TConstructorState = {
+export const initialState: TConstructorState = {
   fillings: [],
   bun: null,
 };
