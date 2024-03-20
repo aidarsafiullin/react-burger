@@ -29,7 +29,11 @@ const Modal: FC<TModal> = ({ onClose, children }) => {
     ReactDOM.createPortal(
       <>
         <section className={styles.modal}>
-          <button type="button" onClick={onClose} className={styles.closeBtn}>
+          <button
+            type="button"
+            onClick={onClose}
+            className={styles.closeBtn}
+            data-testid="modal_header">
             <CloseIcon type="primary" />
           </button>
           {children}

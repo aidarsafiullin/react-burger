@@ -62,7 +62,7 @@ const BurgerConstructor = () => {
 
   return (
     <>
-      <section className={`${styles.section} pl-5 pr-5`}>
+      <section className={`${styles.section} pl-5 pr-5`} data-testid="constructor_drag_destination">
         <div className={`${styles.list} mt-25 mb-13`} ref={dropTarget}>
           {!bun && !fillings.length && (
             <h2 className={`${styles.hint} text text_type_main-medium text_color_inactive`}>

@@ -28,7 +28,7 @@ import {
 import { TAuthActions } from '../actions/auth';
 import { TAuthState } from '../types/state';
 
-const initialState: TAuthState = {
+export const initialState: TAuthState = {
   user: null,
   password: '',
   authRequest: false,
